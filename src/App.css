@@ -1,38 +1,27 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* .posts:not(:last-child) {
+  margin-bottom: 16px;
+} */
+/* .small-pic img {
+  max-height: 105px;
+  width:100%;
+} */
+/* a:hover {
+  color:#DD5415;
+} */
+/* .posts {
+  transition: opacity 0.5s ease;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.posts.fade {opacity: 0!important;} */
+/* .catgeories-list-item {
+  @apply bg-white py-2 px-6 rounded-full text-blues font-semibold capitalize text-xs inline-block border border-blues hover:bg-blues hover:text-white cursor-pointer;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+.catgeories-list-item.active {
+  @apply bg-blues text-white;
+} */
