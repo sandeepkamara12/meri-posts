@@ -1,3 +1,5 @@
+import Searchbar from "./Searchbar";
+
 const Header = () => {
   return (
     <>
@@ -48,7 +50,9 @@ const Header = () => {
           </div>
 
           <div className="w-full flex items-center justify-end ms-auto md:justify-between gap-x-1 md:gap-x-3">
-            <div className="hidden md:block">
+           
+           
+            <div className="hidden md:block w-[350px]">
               <div className="relative">
                 <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
                   <svg
@@ -69,9 +73,10 @@ const Header = () => {
                 </div>
                 <input
                   type="text"
-                  className="py-2 ps-10 pe-16 block w-full bg-white border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600"
+                  className="py-2 ps-10 pe-16 block w-full bg-white border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                   placeholder="Search"
                 />
+                 <Searchbar />
                 <div className="hidden absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-1">
                   <button
                     type="button"
@@ -130,29 +135,6 @@ const Header = () => {
                     </svg>
                   </span>
                   <span className="text-xs">/</span>
-                </div>
-              </div>
-            </div>
-            <div
-              id="hs-header-classic"
-              className="hs-collapse overflow-hidden transition-all duration-300 basis-full grow md:block"
-              aria-labelledby="hs-header-classic-collapse"
-            >
-              <div className="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
-                <div className="py-2 md:py-0 flex flex-row items-center justify-end gap-1">
-                  <a
-                    className="p-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-                    href="#"
-                  >
-                    Work
-                  </a>
-
-                  <a
-                    className="p-2 flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-                    href="#"
-                  >
-                    Blog
-                  </a>
                 </div>
               </div>
             </div>
