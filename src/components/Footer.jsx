@@ -1,11 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
-<footer className="mt-auto bg-white sticky bottom-0 w-full max-w-[85rem] py-3 px-4 sm:px-6 lg:px-8 mx-auto">
-  <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-5">
-    <div>
-      <a className="flex-none text-xl font-semibold text-black focus:outline-none dark:text-white" href="#" aria-label="Brand">Brand</a>
+    
+    <footer className="mt-auto bg-white sticky bottom-0 py-8  border-t border-gray   inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-[48]  text-sm ">
+      <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-5 max-w-4xl w-full mx-auto">
+        <div className='inline-flex gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-500 dark:hover:text-neutral-200 dark:focus:text-neutral-200'>
+          &copy; 2025, Code Spark
     </div>
 
     <ul className="text-center">
