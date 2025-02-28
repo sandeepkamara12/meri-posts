@@ -4,7 +4,7 @@ import SearchbarResult from "./SearchbarResult";
 const Header = () => {
   return (
     <>
-      <header className="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-[48] w-full bg-white text-sm py-8 border-b border-gray ">
+      <header className="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-[48] w-full bg-white text-sm py-4 md:py-8 border-b border-gray px-4 sm:px-6">
         <nav className="flex basis-full items-center max-w-4xl w-full mx-auto">
           <div className="me-5">
             <Link
