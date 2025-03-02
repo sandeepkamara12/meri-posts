@@ -42,7 +42,7 @@ const Post = ({ layout="", alignment, data: post, favoritePosts=[], toggleFavori
         </div>
         <div className="grow">
           <div className={`flex flex-col h-full p-3 ${layout === 'vertical' ? 'sm:py-6' : 'sm:px-6'}`}>
-            <div className={`${layout === 'vertical' ? 'flex-col space-y-2' : 'items-center' } mb-3 flex flex-wrap justify-between`}>
+            <div className={`${layout === 'vertical' ? '' : 'items-center' } mb-3 flex flex-wrap justify-between`}>
               <div className="flex flex-wrap items-center gap-1">
                 {post?.categories && post?.categories?.length > 0 && post?.categories?.map((category, index) =>
                   <Link to="/" key={index}  className="capitalize cursor-pointer transition hover:text-white hover:bg-blue-600 inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-neutral-200">

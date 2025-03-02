@@ -249,7 +249,7 @@ const BlogDetails = () => {
       <Comment />
 
       <div className='w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 md:gap-4'>
-        <div className="col-span-1 md:col-span-3 lg:col-span-3 mb-10 lg:mb-4">
+        <div className="col-span-1 md:col-span-3 lg:col-span-3 md:mb-4">
           <h2 className="text-xl font-bold md:text-2xl md:leading-tight dark:text-white">
             Related Posts
           </h2>
