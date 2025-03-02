@@ -3,8 +3,15 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import SharePostSocial from "./SharePostSocial";
+import moment from "moment";
 
-const Post = ({ alignment, data: post, deletedPost }) => {
+const Post = ({ alignment, data: post, favoritePosts, toggleFavorite }) => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleToggle = () => {
+    setIsChecked(!isChecked);
+  };
+
   return (
     <motion.div
       id={post?.id}
@@ -19,7 +26,7 @@ const Post = ({ alignment, data: post, deletedPost }) => {
         },
       }}
       viewport={{ once: true, amount: 0 }}
-      className={`border-b py-8 border-gray posts relative last:border-0 ${alignment === "vertical" ? "" : ""
+      className={`group border-b py-8 border-gray posts relative last:border-0 ${alignment === "vertical" ? "" : ""
         }`}
     >
       <div
@@ -28,8 +35,8 @@ const Post = ({ alignment, data: post, deletedPost }) => {
         <div className="shrink-0 relative rounded-xl overflow-hidden h-[250px] sm:w-[200px] md:h-[200px] w-full">
           <Link to={`/${post?.id}`}>
             <img
-              className="size-full absolute top-0 start-0 object-cover"
-              src="https://images.unsplash.com/photo-1669824774762-65ddf29bee56?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=560&q=80"
+              className="size-full absolute top-0 start-0 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110 hover:scale-110"
+              src={post?.image}
               alt="Blog Image"
             />
           </Link>
@@ -37,21 +44,47 @@ const Post = ({ alignment, data: post, deletedPost }) => {
         <div className="grow">
           <div className="p-3 flex flex-col h-full sm:px-6">
             <div className="mb-3 flex flex-wrap items-center justify-between">
-              <p className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-neutral-200">
-                Announcements
-              </p>
-              <ul className="ms-auto flex flex-wrap items-center">
+              <div className="flex flex-wrap items-center gap-1">
+                {post?.categories && post?.categories?.length > 0 && post?.categories?.map((category, index) =>
+                  <Link to="/" key={index}  className="capitalize cursor-pointer transition hover:text-white hover:bg-blue-600 inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-neutral-200">
+                    {category}
+                  </Link>
+                )}
+              </div>
+              <ul className="ms-auto flex flex-wrap items-center space-x-1">
                 <li className="relative" data-hs-tooltip="true" title="Share to social networks">
                   <SharePostSocial />
                 </li>
                 <li className="relative" data-hs-tooltip="true" title="Add in your favorite">
-                  <button type="button" className="size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="shrink-0 size-4">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                    </svg>
-                  </button>
+                  <div className="flex">
+                    <input type="checkbox" checked={favoritePosts.includes(post.id)}
+                      onChange={handleToggle} className="hidden shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" id="hs-default-checkbox" />
+                    <label htmlFor="hs-default-checkbox" className="text-sm text-gray-500">
+                      <button
+                        type="button"
+                        onClick={() => toggleFavorite(post.id)}
+                        className={`size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent ${favoritePosts.includes(post.id) ? "bg-red-000" : "text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                          }`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill={favoritePosts.includes(post.id) ? "#dc2626" : "none"}
+                          viewBox="0 0 24 24"
+                          strokeWidth={2}
+                          stroke={favoritePosts.includes(post.id) ? "#dc2626" : "currentColor"}
+                          className="shrink-0 size-4"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                          />
+                        </svg>
+                      </button>
+                    </label>
+                  </div>
                 </li>
-              
+
                 <li className="relative" data-hs-tooltip="true" title="Forward to followers">
                   <button type="button" className="size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="shrink-0 size-4">
@@ -85,11 +118,11 @@ const Post = ({ alignment, data: post, deletedPost }) => {
                 </li>
               </ul>
             </div>
-            <a href="#" className="font-medium text-md text-gray-800 dark:text-neutral-200">
-              Announcing a free plan for small teams
-            </a>
+            <Link to={`/${post?.id}`} className="font-medium text-md text-gray-800 transition group-hover:text-blue-600 hover:text-blue-600">
+              {post?.title}
+            </Link>
             <p className=" mt-1 text-sm text-gray-500 dark:text-neutral-500">
-              At Wake, our mission has always been focused on bringing openness. At Wake, our mission has always been focused on bringing openness...
+              {post?.description}
             </p>
 
             <div className="mt-5 sm:mt-auto">
@@ -97,16 +130,16 @@ const Post = ({ alignment, data: post, deletedPost }) => {
                 <div className="shrink-0">
                   <img
                     className="size-[40px] rounded-full"
-                    src="https://images.unsplash.com/photo-1669720229052-89cda125fc3f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
+                    src={post?.author?.image}
                     alt="Avatar"
                   />
                 </div>
                 <div className="ms-2.5 sm:ms-3">
                   <h4 className="font-semibold text-sm text-gray-800 dark:text-neutral-200">
-                    Hanna Wolfe
+                    {post?.author?.name}
                   </h4>
                   <p className="text-sm text-gray-500 dark:text-neutral-500">
-                    Feb 4, 2021
+                    {moment(post?.date).format('MMM Do YYYY, h:mm a')}
                   </p>
                 </div>
               </div>
@@ -114,41 +147,6 @@ const Post = ({ alignment, data: post, deletedPost }) => {
           </div>
         </div>
       </div>
-      {/* <p className="mt-1">
-        <a
-          className="text-sm text-gray-500 underline hover:text-gray-800 hover:decoration-2 focus:outline-none focus:decoration-2 dark:text-neutral-500 dark:hover:text-neutral-400"
-          href="#"
-        >
-          Continue reading
-        </a>
-      </p> */}
-
-      {/* <div className={`${alignment === "vertical" ? " small-pic w-1/5" : ""}`}>
-        <div>
-          <img
-            className={`${
-              alignment === "vertical" ? "rounded-lg" : "rounded-xl mb-4"
-            }`}
-            src={post?.url}
-            alt=""
-          />
-        </div>
-      </div>
-      <div
-        className={`${
-          alignment === "vertical" ? "w-4/5 pe-4" : ""
-        } flex flex-wrap justify-between flex-col`}
-      >
-        <Link
-          to="#"
-          className={`text-blue font-bold mb-8 ${
-            alignment === "vertical" ? "text-sm" : "text-lg"
-          }`}
-        >
-          {post?.title}
-        </Link>
-        <Categories categories={post?.categories} />
-      </div> */}
     </motion.div>
   );
 };

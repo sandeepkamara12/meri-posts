@@ -1,85 +1,41 @@
 export const allPosts = [
   {
-    id: 1,
-    url: "https://www.forbes.com/advisor/wp-content/uploads/2023/05/great_dane.jpeg.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["cats"],
+    "id": 1,
+    "image": "https://images.pexels.com/photos/7974/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "categories": ["Technology", "AI"],
+    "title": "The Rise of Artificial Intelligence",
+    "date": "2025-02-28",
+    "description": "Artificial Intelligence is revolutionizing industries, from healthcare to finance. Explore the impact of AI in modern technology.",
+    "author": {
+      "name": "John Doe",
+      "image": "/author-1.jpg"
+    },
+    "isFavorite": true
   },
   {
-    id: 2,
-    url: "https://www.forbes.com/advisor/wp-content/uploads/2023/05/great_dane.jpeg.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["dogs"],
+    "id": 2,
+    "image": "https://images.pexels.com/photos/1432680/pexels-photo-1432680.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "categories": ["Web Development", "React"],
+    "title": "Mastering React in 2025",
+    "date": "2025-02-20",
+    "description": "React.js continues to be a leading framework for frontend development. Learn about the latest features and best practices.",
+    "author": {
+      "name": "Jane Smith",
+      "image": "/author-2.jpg"
+    },
+    "isFavorite": false
   },
   {
-    id: 3,
-    url: "https://www.forbes.com/advisor/wp-content/uploads/2023/05/great_dane.jpeg.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["cats", "dogs", "goats"],
-  },
-  {
-    id: 4,
-    url: "https://www.forbes.com/advisor/wp-content/uploads/2023/05/great_dane.jpeg.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["goats"],
-  },
-  {
-    id: 5,
-    url: "https://www.forbes.com/advisor/wp-content/uploads/2023/05/great_dane.jpeg.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["cats", "goats"],
-  },
-  {
-    id: 6,
-    url: "https://www.forbes.com/advisor/wp-content/uploads/2023/05/great_dane.jpeg.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["dogs", "goats"],
-  },
-  {
-    id: 7,
-    url: "https://www.forbes.com/advisor/wp-content/uploads/2023/05/great_dane.jpeg.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["cats", "dogs"],
-  },
-  {
-    id: 8,
-    url: "https://www.forbes.com/advisor/wp-content/uploads/2023/05/great_dane.jpeg.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["cats", "dogs"],
-  },
-  {
-    id: 9,
-    url: "https://www.forbes.com/advisor/wp-content/uploads/2023/05/great_dane.jpeg.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["cats", "dogs", "goats"],
-  },
-];
-export const recentPosts = [
-  {
-    id: 10,
-    url: "https://www.forbes.com/advisor/wp-content/uploads/2023/05/great_dane.jpeg.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["cats", "dogs", "goats"],
-  },
-];
-export const popularPosts = [
-  {
-    id: 11,
-    url: "https://hips.hearstapps.com/hmg-prod/images/large-dogs-bernese-mountain-dog-1586305551.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["cats", "dogs", "goats"],
-  },
-  {
-    id: 12,
-    url: "https://hips.hearstapps.com/hmg-prod/images/large-dogs-bernese-mountain-dog-1586305551.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["cats", "dogs", "goats"],
-  },
-  {
-    id: 13,
-    url: "https://hips.hearstapps.com/hmg-prod/images/large-dogs-bernese-mountain-dog-1586305551.jpg",
-    title: "How to store pet food:The top five best practices",
-    categories: ["cats", "dogs", "goats"],
+    "id": 3,
+    "image": "https://images.pexels.com/photos/450035/pexels-photo-450035.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "categories": ["Business", "Startups"],
+    "title": "Building a Successful Startup",
+    "date": "2025-01-15",
+    "description": "Starting a business in 2025? Here are the essential steps to ensure your startup thrives in a competitive market.",
+    "author": {
+      "name": "Michael Johnson",
+      "image": "/author-3.jpg"
+    },
+    "isFavorite": false
   }
-];
-export const categories = ["all", "cats", "dogs", "goats"];
+]

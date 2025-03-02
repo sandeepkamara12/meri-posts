@@ -1,31 +1,27 @@
-import React, { useState } from 'react';
-import { categories, popularPosts, recentPosts, allPosts } from "../data";
+import React, { useEffect, useState } from 'react';
+import { allPosts } from "../data";
 import Post from '../components/Post';
 
 const Home = () => {
-    const [posts, setPosts] = useState(allPosts);
-    const [selectedCategory, setSelectedCategory] = useState("all");
-    const [selectedPosts, setSelectedPosts] = useState(allPosts);
-    // const deletedPost = async (id) => {
-    //   const itemNeedToDelete = document.getElementById(id);
-    //   if (itemNeedToDelete) {
-    //     itemNeedToDelete.classList.add("fade");
-    //     setTimeout(() => {
-    //       setPosts((prev) => prev.filter((post) => post?.id !== id));
-    //     }, 1000);
-    //   }
-    // };
+    const [favoritePosts, setFavoritePosts] = useState([]);
 
-    const filterPostViaCategory = (category) => {
-        if (category === "all") {
-            setSelectedPosts(allPosts);
+    useEffect(() => {
+        const savedFavorites = JSON.parse(localStorage.getItem("favoritePosts")) || [];
+        setFavoritePosts(savedFavorites);
+    }, []);
+
+    const toggleFavorite = (postId) => {
+        let updatedFavorites;
+        if (favoritePosts.includes(postId)) {
+            updatedFavorites = favoritePosts.filter(id => id !== postId); // Remove from favorites
         } else {
-            const posted = posts.filter((post) =>
-                post?.categories.includes(category)
-            );
-            setSelectedPosts(posted);
+            updatedFavorites = [...favoritePosts, postId]; // Add to favorites
         }
+
+        setFavoritePosts(updatedFavorites);
+        localStorage.setItem("favoritePosts", JSON.stringify(updatedFavorites)); // Save in storage
     };
+
     return (
 
         <div className=" w-full max-w-4xl mx-auto">
@@ -36,6 +32,8 @@ const Home = () => {
                             key={post?.id}
                             alignment="vertical"
                             data={post}
+                            favoritePosts={favoritePosts}
+                            toggleFavorite={toggleFavorite}
                         />
                     );
                 })}

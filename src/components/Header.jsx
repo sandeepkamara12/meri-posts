@@ -1,7 +1,19 @@
 import { Link } from "react-router-dom";
 import SearchbarResult from "./SearchbarResult";
+import { useState } from "react";
+import {allPosts } from "../data";
+import NoPostFound from "./NoPostFound";
 
 const Header = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Filter posts based on search query
+  const filteredPosts = allPosts.filter((post) =>
+    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.categories.some(category => category.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    post.author.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <>
       <header className="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-[48] w-full bg-white text-sm py-4 md:py-8 border-b border-gray px-4 sm:px-6">
@@ -43,8 +55,15 @@ const Header = () => {
                   type="text"
                   className="py-2 ps-10 pe-16 block w-full bg-white border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                   placeholder="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                 <SearchbarResult />
+                {
+                  searchQuery && filteredPosts.length > 0 ? (
+                    <SearchbarResult filteredPosts={filteredPosts} />
+                  ) :
+                    <NoPostFound />
+                  }
                 <div className="hidden absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-1">
                   <button
                     type="button"
