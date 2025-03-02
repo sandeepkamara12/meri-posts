@@ -244,40 +244,42 @@ const BlogDetails = () => {
         </div>
       </div>
 
-<UserComments />
+      <UserComments />
       <Comment />
 
-      <div className='w-full grid grid-cols-3 gap-4'>
-        <div class="col-span-3 mb-10 lg:mb-14">
-          <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Related Posts</h2>
-          <p class="mt-1 text-gray-600 dark:text-neutral-400">See how game-changing companies are making the most of every engagement with Preline.</p>
+      <div className='w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 md:gap-4'>
+        <div className="col-span-1 md:col-span-3 lg:col-span-3 mb-10 lg:mb-4">
+          <h2 className="text-xl font-bold md:text-2xl md:leading-tight dark:text-white">
+            Related Posts
+          </h2>
+          <p className=" mt-1 text-sm text-gray-500 dark:text-neutral-500">
+            See how game-changing companies are making the most of every engagement with Preline.
+          </p>
         </div>
-        {
 
-          allPosts && allPosts?.map(post => {
-            return (
-              <div className='col-span-1' key={post?.id}>
-                <Post
-                  layout="vertical"
-                  key={post?.id}
-                  alignment="vertical"
-                  data={post}
-                />
-              </div>
-            )
-          })
-        }
-        <div className="my-12 text-center col-span-3">
-          <Link className="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-full border border-gray-200 bg-white text-blue-600 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-blue-500 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#" target="_parent">
-            Read more
-            <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
-          </Link>
-        </div>
+        {allPosts &&
+          allPosts.map((post, index) => (
+            <Post key={index}  layout="vertical" alignment="vertical" data={post} />
+          ))}
+
       </div>
+      <div className="my-12 text-center col-span-1 md:col-span-2 lg:col-span-3">
+        <Link
+          className="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-full border border-gray-200 bg-white text-blue-600 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-blue-500 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+          href="#"
+          target="_parent"
+        >
+          Read more
+          <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </Link>
+    </div>
+
 
       
 
-    </div>
+    </div >
   );
 }
 

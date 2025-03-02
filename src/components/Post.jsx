@@ -25,7 +25,7 @@ const Post = ({ layout="", alignment, data: post, favoritePosts=[], toggleFavori
         },
       }}
       viewport={{ once: true, amount: 0 }}
-      className={`group border-b  border-gray posts relative last:border-0 ${layout === "vertical" ? "" : "py-8"
+      className={`group posts relative last:border-0 ${layout === "vertical" ? "col-span-1 py-8 md:py-0 border-b border-gray md:border-0" : "border-b border-gray py-8"
         }`}
     >
       <div
