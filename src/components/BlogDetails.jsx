@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { allPosts } from '../data';
 import moment from 'moment';
+import Post from './Post';
+import { div } from 'framer-motion/client';
+import Comment from './Comment';
+import UserComments from './UserComments';
 
 const BlogDetails = () => {
   const { id } = useParams();
@@ -14,7 +18,7 @@ const BlogDetails = () => {
 
   if (!blog) return <p>Loading...</p>;
   return (
-    <>
+    <div className="max-w-4xl w-full mx-auto">
       <div className="pt-6 lg:pt-10 pb-12 mx-auto">
         <div className="">
           <div className="flex justify-between items-center mb-6">
@@ -98,7 +102,7 @@ const BlogDetails = () => {
 
           <div className="space-y-5 md:space-y-8">
             <div className="space-y-3">
-              <h2 className="text-2xl font-bold md:text-3xl">{blog?.title }</h2>
+              <h2 className="text-2xl font-bold md:text-3xl">{blog?.title}</h2>
 
               <p className="text-lg text-gray-800">{blog?.description}</p>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus commodi, est veniam possimus hic tempora recusandae cumque reprehenderit necessitatibus nostrum non beatae consequatur quas explicabo. Nam tempore est quia nemo, vero rerum eum totam rem beatae modi minus laborum pariatur iure alias delectus numquam a. Sequi optio modi alias accusantium.</p>
@@ -139,7 +143,7 @@ const BlogDetails = () => {
                     resume_web_ui_developer.csv
                   </span>
                   <button type="button" className="flex items-center gap-x-2 text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 whitespace-nowrap">
-                    <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                       <polyline points="7 10 12 15 17 10"></polyline>
                       <line x1="12" x2="12" y1="15" y2="3"></line>
@@ -154,7 +158,7 @@ const BlogDetails = () => {
                     coverletter_web_ui_developer.pdf
                   </span>
                   <button type="button" className="flex items-center gap-x-2 text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 whitespace-nowrap">
-                    <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                       <polyline points="7 10 12 15 17 10"></polyline>
                       <line x1="12" x2="12" y1="15" y2="3"></line>
@@ -167,12 +171,12 @@ const BlogDetails = () => {
             <div>
               {
                 blog?.categories && blog?.categories?.length > 0 && blog?.categories?.map((category, index) =>
-                  
-                  <Link key={index}  className="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200" href="#">
-                {category}
-              </Link>
-              )
-            }
+
+                  <Link key={index} className="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200" href="#">
+                    {category}
+                  </Link>
+                )
+              }
             </div>
           </div>
         </div>
@@ -183,7 +187,7 @@ const BlogDetails = () => {
           <div className="flex items-center gap-x-1.5">
             <div className="hs-tooltip inline-block">
               <button type="button" className="hs-tooltip-toggle flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800">
-                <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>
+                <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>
                 875
                 <span className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm" role="tooltip">
                   Like
@@ -195,7 +199,7 @@ const BlogDetails = () => {
 
             <div className="hs-tooltip inline-block">
               <button type="button" className="hs-tooltip-toggle flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800">
-                <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z" /></svg>
+                <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z" /></svg>
                 16
                 <span className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm" role="tooltip">
                   Comment
@@ -207,12 +211,12 @@ const BlogDetails = () => {
 
             <div className="hs-dropdown relative inline-flex">
               <button id="hs-blog-article-share-dropdown" type="button" className="flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" x2="12" y1="2" y2="15" /></svg>
+                <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" x2="12" y1="2" y2="15" /></svg>
                 Share
               </button>
               <div className="hs-dropdown-menu w-56 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mb-1 z-10 bg-gray-900 shadow-md rounded-xl p-2" role="menu" aria-orientation="vertical" aria-labelledby="hs-blog-article-share-dropdown">
                 <a className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-400 hover:bg-white/10 focus:outline-none focus:bg-white/10" href="#">
-                  <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
+                  <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
                   Copy link
                 </a>
                 <div className="border-t border-gray-600 my-2"></div>
@@ -239,7 +243,41 @@ const BlogDetails = () => {
           </div>
         </div>
       </div>
-    </>
+
+<UserComments />
+      <Comment />
+
+      <div className='w-full grid grid-cols-3 gap-4'>
+        <div class="col-span-3 mb-10 lg:mb-14">
+          <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Related Posts</h2>
+          <p class="mt-1 text-gray-600 dark:text-neutral-400">See how game-changing companies are making the most of every engagement with Preline.</p>
+        </div>
+        {
+
+          allPosts && allPosts?.map(post => {
+            return (
+              <div className='col-span-1' key={post?.id}>
+                <Post
+                  layout="vertical"
+                  key={post?.id}
+                  alignment="vertical"
+                  data={post}
+                />
+              </div>
+            )
+          })
+        }
+        <div className="my-12 text-center col-span-3">
+          <Link className="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-full border border-gray-200 bg-white text-blue-600 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-blue-500 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#" target="_parent">
+            Read more
+            <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+          </Link>
+        </div>
+      </div>
+
+      
+
+    </div>
   );
 }
 

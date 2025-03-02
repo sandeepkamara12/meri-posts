@@ -1,11 +1,10 @@
-import Categories from "./Categories";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import SharePostSocial from "./SharePostSocial";
 import moment from "moment";
 
-const Post = ({ alignment, data: post, favoritePosts, toggleFavorite }) => {
+const Post = ({ layout="", alignment, data: post, favoritePosts=[], toggleFavorite }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleToggle = () => {
@@ -26,13 +25,13 @@ const Post = ({ alignment, data: post, favoritePosts, toggleFavorite }) => {
         },
       }}
       viewport={{ once: true, amount: 0 }}
-      className={`group border-b py-8 border-gray posts relative last:border-0 ${alignment === "vertical" ? "" : ""
+      className={`group border-b  border-gray posts relative last:border-0 ${layout === "vertical" ? "" : "py-8"
         }`}
     >
       <div
-        className="group sm:flex rounded-xl focus:outline-none w-full block"
+        className={`group ${layout==='vertical'?'flex flex-col':'sm:flex'} rounded-xl focus:outline-none w-full block`}
       >
-        <div className="shrink-0 relative rounded-xl overflow-hidden h-[250px] sm:w-[200px] md:h-[200px] w-full">
+        <div className={`shrink-0 relative rounded-xl overflow-hidden h-[250px] ${layout === 'vertical' ? 'w-full':'sm:w-[200px]'} md:h-[200px]`}>
           <Link to={`/${post?.id}`}>
             <img
               className="size-full absolute top-0 start-0 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110 hover:scale-110"
@@ -42,8 +41,8 @@ const Post = ({ alignment, data: post, favoritePosts, toggleFavorite }) => {
           </Link>
         </div>
         <div className="grow">
-          <div className="p-3 flex flex-col h-full sm:px-6">
-            <div className="mb-3 flex flex-wrap items-center justify-between">
+          <div className={`flex flex-col h-full p-3 ${layout === 'vertical' ? 'sm:py-6' : 'sm:px-6'}`}>
+            <div className={`${layout === 'vertical' ? 'flex-col space-y-2' : 'items-center' } mb-3 flex flex-wrap justify-between`}>
               <div className="flex flex-wrap items-center gap-1">
                 {post?.categories && post?.categories?.length > 0 && post?.categories?.map((category, index) =>
                   <Link to="/" key={index}  className="capitalize cursor-pointer transition hover:text-white hover:bg-blue-600 inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-neutral-200">
@@ -51,7 +50,7 @@ const Post = ({ alignment, data: post, favoritePosts, toggleFavorite }) => {
                   </Link>
                 )}
               </div>
-              <ul className="ms-auto flex flex-wrap items-center space-x-1">
+              <ul className={`${layout === 'vertical' ? '' : 'ms-auto'} flex flex-wrap items-center space-x-1`}>
                 <li className="relative" data-hs-tooltip="true" title="Share to social networks">
                   <SharePostSocial />
                 </li>
@@ -125,7 +124,7 @@ const Post = ({ alignment, data: post, favoritePosts, toggleFavorite }) => {
               {post?.description}
             </p>
 
-            <div className="mt-5 sm:mt-auto">
+            <div className={`${layout === 'vertical' ? '' : 'sm:mt-auto'} mt-5`}>
               <div className="flex items-center">
                 <div className="shrink-0">
                   <img
@@ -144,6 +143,7 @@ const Post = ({ alignment, data: post, favoritePosts, toggleFavorite }) => {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
