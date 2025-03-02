@@ -102,11 +102,12 @@ const BlogDetails = () => {
 
           <div className="space-y-5 md:space-y-8">
             <div className="space-y-3">
-              <h2 className="text-2xl font-bold md:text-3xl">{blog?.title}</h2>
+               {/* text-md text-gray-800 transition group-hover:text-blue-600 hover:text-blue-600 */}
+              <h2 className="text-2xl font-bold md:text-2xl">{blog?.title}</h2>
 
-              <p className="text-lg text-gray-800">{blog?.description}</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus commodi, est veniam possimus hic tempora recusandae cumque reprehenderit necessitatibus nostrum non beatae consequatur quas explicabo. Nam tempore est quia nemo, vero rerum eum totam rem beatae modi minus laborum pariatur iure alias delectus numquam a. Sequi optio modi alias accusantium.</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus commodi, est veniam possimus hic tempora recusandae cumque reprehenderit necessitatibus nostrum non beatae consequatur quas explicabo. Nam tempore est quia nemo, vero rerum eum totam rem beatae modi minus laborum pariatur iure alias delectus numquam a. Sequi optio modi alias accusantium.</p>
+              <p className=" mt-1 text-md text-gray">{blog?.description}</p>
+              <p className=' mt-1 text-md text-gray'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus commodi, est veniam possimus hic tempora recusandae cumque reprehenderit necessitatibus nostrum non beatae consequatur quas explicabo. Nam tempore est quia nemo, vero rerum eum totam rem beatae modi minus laborum pariatur iure alias delectus numquam a. Sequi optio modi alias accusantium.</p>
+              <p className=' mt-1 text-md text-gray'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus commodi, est veniam possimus hic tempora recusandae cumque reprehenderit necessitatibus nostrum non beatae consequatur quas explicabo. Nam tempore est quia nemo, vero rerum eum totam rem beatae modi minus laborum pariatur iure alias delectus numquam a. Sequi optio modi alias accusantium.</p>
             </div>
 
             <figure>
