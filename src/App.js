@@ -6,11 +6,19 @@ import Home from "./pages/Home";
 import Post from "./components/Post";
 import BlogDetails from "./components/BlogDetails";
 import Requirements from "./pages/Requirements";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import ForgotPassword from "./components/ForgotPassword";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import PublicRoute from "./components/PublicRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
 
   return (
+    <Provider store={store}>
     <BrowserRouter>
       <div className="App">
         <Header />
@@ -26,7 +34,19 @@ function App() {
             />
             <Route
               path="/:id"
-              element={<BlogDetails />}
+              element={<ProtectedRoute><BlogDetails /></ProtectedRoute>}
+            />
+            <Route
+              path="/login"
+              element={<PublicRoute><Login /></PublicRoute>}
+            />
+            <Route
+              path="/register"
+              element={<PublicRoute><Register /></PublicRoute>}
+            />
+            <Route
+              path="/forgot-password"
+              element={<PublicRoute><ForgotPassword /></PublicRoute>}
             />
           </Routes>
 
@@ -34,6 +54,7 @@ function App() {
         <Footer />  
       </div>
     </BrowserRouter>
+    </Provider>
   );
 }
 

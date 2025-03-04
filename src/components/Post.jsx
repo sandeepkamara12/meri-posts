@@ -44,7 +44,7 @@ const Post = ({ layout="", alignment, data: post, favoritePosts=[], toggleFavori
           <div className={`flex flex-col h-full p-3 ${layout === 'vertical' ? 'sm:py-6' : 'sm:px-6'}`}>
             <div className={`${layout === 'vertical' ? 'flex-col space-y-2' : 'flex-col space-y-2 md:space-y-0 md:flex-row md:items-center' } mb-3 flex flex-wrap justify-between`}>
               <div className="flex flex-wrap items-center gap-1">
-                {post?.categories && post?.categories?.length > 0 && post?.categories?.map((category, index) =>
+                {post?.tags && post?.tags?.length > 0 && post?.tags?.map((category, index) =>
                   <Link to="/" key={index}  className="capitalize cursor-pointer transition hover:text-white hover:bg-blue-600 inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-neutral-200">
                     {category}
                   </Link>
@@ -113,7 +113,7 @@ const Post = ({ layout="", alignment, data: post, favoritePosts=[], toggleFavori
                       />
                     </svg>
                   </button>
-                  <span className="text-sm">1000</span>
+                  <span className="text-sm">{ post?.views}</span>
                 </li>
               </ul>
             </div>
@@ -121,7 +121,7 @@ const Post = ({ layout="", alignment, data: post, favoritePosts=[], toggleFavori
               {post?.title}
             </Link>
             <p className=" mt-1 text-sm text-gray-500 dark:text-neutral-500">
-              {post?.description}
+              {post?.body}
             </p>
 
             <div className={`${layout === 'vertical' ? '' : 'sm:mt-auto'} mt-5`}>
