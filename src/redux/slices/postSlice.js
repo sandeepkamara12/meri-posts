@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const getAllPosts = createAsyncThunk('posts/getAllPost', async(page,{ rejectWithValue })=>{
     try {
-        let response = await axios.get(`https://dummyjson.com/posts?limit=10&skip=${page*10}`);
+        let response = await axios.get(`https://dummyjson.com/posts?delay=5000&limit=10&skip=${page*10}`);
         return response?.data?.posts;
     } catch (error) {
         return rejectWithValue(error?.response?.data?.message || "Error while getting all the posts.");

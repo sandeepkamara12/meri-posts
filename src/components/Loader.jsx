@@ -3,7 +3,7 @@ import React from "react";
 const Loader = () => {
   return (
     <div
-    className="inline-block size-4 border-[2px] border-black border-t-transparent text-blue-600 rounded-full"
+    className="animate-spin inline-block size-4 border-[2px] border-black border-t-transparent text-blue-600 rounded-full"
     // role="status"
     // aria-label="loading"
   >

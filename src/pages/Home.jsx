@@ -69,12 +69,13 @@ const Home = () => {
           );
         })}
         {
-          loading && <div className="absolute inset-y-0 end-2 flex items-center pointer-events-none z-20 pe-1">
+          loading &&
+           <div className="end-2 flex items-center justify-center pointer-events-none z-20 py-6">
             <Loader />
           </div>
         }
       {error && <p>Error: {error}</p>}
-      <div ref={loaderRef} style={{ height: "100px" }}></div>
+      <div ref={loaderRef} style={{ height: "10px" }}></div>
     </div>
   );
 };
