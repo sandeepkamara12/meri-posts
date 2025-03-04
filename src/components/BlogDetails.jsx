@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { allPosts } from '../data';
 import moment from 'moment';
 import Post from './Post';
-import { div } from 'framer-motion/client';
 import Comment from './Comment';
 import UserComments from './UserComments';
+import { useSelector } from 'react-redux';
+import Loader from './Loader';
 
 const BlogDetails = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
+  const [user, setUser] = useState(null);
+  const {posts} = useSelector(state=>state.posts);
+  const {users} = useSelector(state=>state.users);
 
   useEffect(() => {
-    const selectedBlog = allPosts.find((b) => b.id === parseInt(id));
+    const selectedBlog = posts.find((post) => post.id === parseInt(id));
     setBlog(selectedBlog);
-  }, [id]);
+    setUser(users[selectedBlog?.userId]);
+  }, [id, posts, users]);
 
-  if (!blog) return <p>Loading...</p>;
+  if (!blog) return <Loader />;
   return (
     <div className="max-w-4xl w-full mx-auto">
       <div className="pt-6 lg:pt-10 pb-12 mx-auto">
@@ -24,7 +28,7 @@ const BlogDetails = () => {
           <div className="flex justify-between items-center mb-6">
             <div className="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
               <div className="shrink-0">
-                <img className="size-12 rounded-full" src={blog?.author?.image} alt="Avatar" />
+                <img className="size-12 rounded-full" src={user?.image} alt="Avatar" />
               </div>
 
               <div className="grow">
@@ -33,7 +37,7 @@ const BlogDetails = () => {
                     <div className="hs-tooltip [--trigger:hover] [--placement:bottom] inline-block">
                       <div className="hs-tooltip-toggle sm:mb-1 block text-start cursor-pointer">
                         <span className="font-semibold text-gray-800">
-                          {blog?.author?.name}
+                          {`${user?.firstName} ${user?.lastName}`}
                         </span>
 
                         {/* <div className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 max-w-xs cursor-default bg-gray-900 divide-y divide-gray-700 shadow-lg rounded-xl" role="tooltip">
@@ -258,8 +262,8 @@ const BlogDetails = () => {
           </p>
         </div>
 
-        {allPosts &&
-          allPosts.map((post, index) => (
+        {posts &&
+          posts.map((post, index) => (
             <Post key={index}  layout="vertical" alignment="vertical" data={post} />
           ))}
 

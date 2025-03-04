@@ -1,27 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { allPosts } from "../data";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Post from "../components/Post";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 import { getAllPosts } from "../redux/slices/postSlice";
+import Loader from "../components/Loader";
 
 const Home = () => {
   const [favoritePosts, setFavoritePosts] = useState([]);
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const {posts } = useSelector((state) => state.posts);
+  const { posts, loading, error, page, hasMore } = useSelector(
+    (state) => state.posts
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+  const observer = useRef(null);
+  const loaderRef = useRef(null);
+
   useEffect(() => {
     const savedFavorites =
       JSON.parse(localStorage.getItem("favoritePosts")) || [];
     setFavoritePosts(savedFavorites);
   }, []);
 
-  useEffect(()=>{
-    dispatch(getAllPosts());
-  },[dispatch])
+  useEffect(() => {
+    if (loading || !hasMore) return;
+
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          console.log("Fetching page:", page);
+          dispatch(getAllPosts(page));
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    if (loaderRef.current) observer.current.observe(loaderRef.current);
+
+    return () => {
+      if (observer.current) observer.current.disconnect();
+    };
+  }, [dispatch, loading, hasMore, page]);
 
   const toggleFavorite = (postId) => {
     let updatedFavorites;
@@ -35,22 +54,28 @@ const Home = () => {
     localStorage.setItem("favoritePosts", JSON.stringify(updatedFavorites)); // Save in storage
   };
 
-  console.log(posts, 'posts')
   return (
-      <div className=" w-full max-w-4xl mx-auto">
-        {posts?.length > 0 &&
-          posts?.map((post) => {
-            return (
-              <Post
-                key={post?.id}
-                alignment="vertical"
-                data={post}
-                favoritePosts={favoritePosts}
-                toggleFavorite={toggleFavorite}
-              />
-            );
-          })}
-      </div>
+    <div className=" w-full max-w-4xl mx-auto">
+      {posts?.length > 0 &&
+        posts?.map((post) => {
+          return (
+            <Post
+              key={post?.id}
+              alignment="vertical"
+              data={post}
+              favoritePosts={favoritePosts}
+              toggleFavorite={toggleFavorite}
+            />
+          );
+        })}
+        {
+          loading && <div className="absolute inset-y-0 end-2 flex items-center pointer-events-none z-20 pe-1">
+            <Loader />
+          </div>
+        }
+      {error && <p>Error: {error}</p>}
+      <div ref={loaderRef} style={{ height: "100px" }}></div>
+    </div>
   );
 };
 

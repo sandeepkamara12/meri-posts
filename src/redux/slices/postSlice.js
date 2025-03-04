@@ -2,12 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
-export const getAllPosts = createAsyncThunk('posts/getAllPost', async(_,{ rejectWithValue })=>{
+export const getAllPosts = createAsyncThunk('posts/getAllPost', async(page,{ rejectWithValue })=>{
     try {
-        let response = await axios.get('https://dummyjson.com/posts');
+        let response = await axios.get(`https://dummyjson.com/posts?limit=10&skip=${page*10}`);
         return response?.data?.posts;
     } catch (error) {
-        return rejectWithValue(error?.response?.data?.message || "Login failed");
+        return rejectWithValue(error?.response?.data?.message || "Error while getting all the posts.");
     }
 })
 
@@ -16,7 +16,9 @@ const postSlice = createSlice({
     initialState:{
         posts:[],
         loading:false,
-        error:null
+        error:null,
+        page: 0,
+        hasMore: true
     },
     reducers:{},
     extraReducers:(builder)=>{
@@ -26,7 +28,11 @@ const postSlice = createSlice({
         })
         .addCase(getAllPosts.fulfilled, (state, action)=>{
             state.loading = false;
-            state.posts = action.payload;
+            console.log(action.payload, 'payload is', state.posts.length);
+            // state.posts = state.posts.length === 0 ? [...action.payload] : [...state.posts, ...action.payload]
+            state.posts =  [...state.posts, ...action.payload];
+            state.page += 1;
+            state.hasMore = action.payload.length > 0;
         })
         .addCase(getAllPosts.rejected, (state, action)=>{
             state.loading = false;
@@ -34,5 +40,5 @@ const postSlice = createSlice({
         });
     }
 })
-// export const {reducer} = postSlice.actions;
+// export const {reducer} = postSlice.actions;  
 export default postSlice.reducer;

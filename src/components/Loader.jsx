@@ -2,9 +2,13 @@ import React from "react";
 
 const Loader = () => {
   return (
-    <div className="fixed top-0 left-0 right-0 bottomm-0 bg-primary">
-      Loader
-    </div>
+    <div
+    className="inline-block size-4 border-[2px] border-black border-t-transparent text-blue-600 rounded-full"
+    // role="status"
+    // aria-label="loading"
+  >
+    {/* <span className="sr-only">Loading...</span> */}
+  </div>
   );
 };
 
