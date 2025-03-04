@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import PublicRoute from "./components/PublicRoute";
 import ProtectedRoute from "./components/ProtectedRoute";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
 
@@ -47,6 +48,10 @@ function App() {
             <Route
               path="/forgot-password"
               element={<PublicRoute><ForgotPassword /></PublicRoute>}
+            />
+            <Route
+              path="/profile"
+              element={<ProtectedRoute><UserProfile /></ProtectedRoute>}
             />
           </Routes>
 

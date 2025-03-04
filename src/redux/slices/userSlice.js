@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
 export const getUserById = createAsyncThunk('users/getUserById', async(userId, {getState, rejectWithValue })=>{
     // We are getting user for posts, and we can not load all the users togather so we are checking either the user
     // is exist in the redux store or not, if not then hit the api else it will show from redux store.
@@ -28,6 +27,21 @@ export const getAllUsers = createAsyncThunk('users/getAllUsers', async(_,{ rejec
             return acc;
         }, {});
         return usersObject; 
+    } catch (error) {
+        return rejectWithValue(error?.response?.data?.message || "Error while getting user by id.");
+    }
+})
+
+export const getCurrentUser = createAsyncThunk("users/getCurrentUser", async(token, {rejectWithValue}) => {
+    try {
+        let response = await axios.get('https://dummyjson.com/auth/me', {
+            headers:{
+                Authorization:`Bearer ${token}`
+            },
+        }
+    )
+    console.log(response, "current user");
+    return response.data; 
     } catch (error) {
         return rejectWithValue(error?.response?.data?.message || "Error while getting user by id.");
     }
@@ -65,6 +79,19 @@ const userSlice = createSlice({
             state.users =  action.payload; //Store all user
         })
         .addCase(getAllUsers.rejected, (state, action)=>{
+            state.loading = false;
+            state.error = action.payload;
+        });
+
+        builder.addCase(getCurrentUser.pending, state=>{
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(getCurrentUser.fulfilled, (state, action)=>{
+            state.loading = false;
+            state.users =  action.payload; //Store current user
+        })
+        .addCase(getCurrentUser.rejected, (state, action)=>{
             state.loading = false;
             state.error = action.payload;
         });
