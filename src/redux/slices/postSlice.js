@@ -4,7 +4,6 @@ import axios from "axios";
 export const getAllPosts = createAsyncThunk(
   "posts/getAllPost",
   async (page, { rejectWithValue }) => {
-    console.log('bol')
     try {
       let response = await axios.get(
         `${process.env.REACT_APP_URL}posts?delay=1000&limit=10&skip=${page * 10}`
