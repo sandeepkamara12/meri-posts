@@ -6,9 +6,10 @@ export const getAllPosts = createAsyncThunk(
   async (page, { rejectWithValue }) => {
     try {
       let response = await axios.get(
-        `${process.env.REACT_APP_URL}posts?delay=1000&limit=10&skip=${page * 10}`
+        `${process.env.REACT_APP_URL}postsData`
       );
-      return response?.data?.posts;
+      console.log(response?.posts, 'hi')
+      return response?.posts;
     } catch (error) {
       return rejectWithValue(
         error?.response?.data?.message || "Error while getting all the posts."

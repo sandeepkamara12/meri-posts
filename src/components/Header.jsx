@@ -5,6 +5,7 @@ import { allPosts } from "../data";
 import NoPostFound from "./NoPostFound";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
+import { persistor } from "../redux/store";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,7 +27,9 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    persistor.purge(); // Clears persisted state
     navigate("/login");
+    // window.location.reload();
   };
 
   return (

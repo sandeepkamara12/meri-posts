@@ -23,14 +23,14 @@ const Post = ({
     setIsChecked(!isChecked);
   };
 
-  useEffect(() => {
-    const fetchUserById = async () => {
-      await dispatch(getUserById(post?.userId));
-    };
-    if (!user) {
-      fetchUserById();
-    }
-  }, [dispatch, post?.userId, user]);
+  // useEffect(() => {
+  //   const fetchUserById = async () => {
+  //     await dispatch(getUserById(post?.userId));
+  //   };
+  //   if (!user) {
+  //     fetchUserById();
+  //   }
+  // }, [dispatch, post?.userId, user]);
 
   return (
     <div

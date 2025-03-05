@@ -4,7 +4,6 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
 const TOKEN_KEY = "user";
 const storedUser = localStorage.getItem(TOKEN_KEY);
 
@@ -49,6 +48,9 @@ const authSlice = createSlice({
       console.log('you are logged out.')
       state.isLoggedIn = false;
       localStorage.removeItem(TOKEN_KEY);
+      // console.log(JSON.stringify(state), 'state is')
+      state.user = {}
+      // return initialState
     }
   },
   extraReducers: (builder) => {
