@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import SearchbarResult from "./SearchbarResult";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { allPosts } from "../data";
 import NoPostFound from "./NoPostFound";
 import { useDispatch, useSelector } from "react-redux";
@@ -226,27 +226,26 @@ const Header = () => {
                       </p>
                     </div>
                     <div className="p-1.5 space-y-0.5">
-                      <a
+                      <Link
                         className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700 dark:focus:text-neutral-300"
-                        href="#"
+                        to="/profile"
                       >
                         <svg
-                          className="shrink-0 size-4"
                           xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
                           fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={2}
                           stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
+                          className="size-4 shrink-0"
                         >
-                          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                          />
                         </svg>
-                        Newsletter
-                      </a>
+                        Profile
+                      </Link>
                       <a
                         className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700 dark:focus:text-neutral-300"
                         href="#"

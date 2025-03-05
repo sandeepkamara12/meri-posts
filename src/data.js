@@ -1,41 +1,36 @@
 export const allPosts = [
   {
-    "id": 1,
-    "image": "https://images.pexels.com/photos/7974/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "categories": ["Technology", "AI"],
-    "title": "The Rise of Artificial Intelligence",
-    "date": "2025-02-28",
-    "description": "Artificial Intelligence is revolutionizing industries, from healthcare to finance. Explore the impact of AI in modern technology.",
-    "author": {
-      "name": "John Doe",
-      "image": "/author-1.jpg"
+    id: 1,
+    title: "His mother had always taught him",
+    body: "His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind.",
+    tags: ["history", "american", "crime"],
+    reactions: {
+      likes: 192,
+      dislikes: 25
     },
-    "isFavorite": true
+    views: 305,
+    user: {
+      id: 121,
+      firstName: "John",
+      lastName: "Doe",
+      image: "https://randomuser.me/api/portraits/men/1.jpg"
+    }
   },
   {
-    "id": 2,
-    "image": "https://images.pexels.com/photos/1432680/pexels-photo-1432680.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "categories": ["Web Development", "React"],
-    "title": "Mastering React in 2025",
-    "date": "2025-02-20",
-    "description": "React.js continues to be a leading framework for frontend development. Learn about the latest features and best practices.",
-    "author": {
-      "name": "Jane Smith",
-      "image": "/author-2.jpg"
+    id: 2,
+    title: "The mysterious disappearance",
+    body: "It was an eerie evening, the sky painted in hues of orange and purple. The town was small, and everyone knew everyone. But when Lucy didn't return home that night, the rumors started spreading...",
+    tags: ["mystery", "thriller", "drama"],
+    reactions: {
+      likes: 250,
+      dislikes: 30
     },
-    "isFavorite": false
-  },
-  {
-    "id": 3,
-    "image": "https://images.pexels.com/photos/450035/pexels-photo-450035.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "categories": ["Business", "Startups"],
-    "title": "Building a Successful Startup",
-    "date": "2025-01-15",
-    "description": "Starting a business in 2025? Here are the essential steps to ensure your startup thrives in a competitive market.",
-    "author": {
-      "name": "Michael Johnson",
-      "image": "/author-3.jpg"
-    },
-    "isFavorite": false
+    views: 512,
+    user: {
+      id: 122,
+      firstName: "Alice",
+      lastName: "Smith",
+      image: "https://randomuser.me/api/portraits/women/2.jpg"
+    }
   }
-]
+];

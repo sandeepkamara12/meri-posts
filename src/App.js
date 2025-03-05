@@ -14,6 +14,7 @@ import { store } from "./redux/store";
 import PublicRoute from "./components/PublicRoute";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserProfile from "./pages/UserProfile";
+import RelatedPosts from "./pages/RelatedPosts";
 
 function App() {
 
@@ -35,7 +36,7 @@ function App() {
             />
             <Route
               path="/:id"
-              element={<ProtectedRoute><BlogDetails /></ProtectedRoute>}
+              element={<BlogDetails />}
             />
             <Route
               path="/login"
@@ -52,6 +53,10 @@ function App() {
             <Route
               path="/profile"
               element={<ProtectedRoute><UserProfile /></ProtectedRoute>}
+            />
+            <Route
+              path="/related-posts"
+              element={<RelatedPosts />}
             />
           </Routes>
 

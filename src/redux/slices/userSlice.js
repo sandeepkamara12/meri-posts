@@ -28,7 +28,7 @@ export const getAllUsers = createAsyncThunk('users/getAllUsers', async(_,{ rejec
         }, {});
         return usersObject; 
     } catch (error) {
-        return rejectWithValue(error?.response?.data?.message || "Error while getting user by id.");
+        return rejectWithValue(error?.response?.data?.message || "Error while getting users.");
     }
 })
 
@@ -40,7 +40,6 @@ export const getCurrentUser = createAsyncThunk("users/getCurrentUser", async(tok
             },
         }
     )
-    console.log(response, "current user");
     return response.data; 
     } catch (error) {
         return rejectWithValue(error?.response?.data?.message || "Error while getting user by id.");

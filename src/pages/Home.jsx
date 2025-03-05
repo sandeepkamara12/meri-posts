@@ -7,12 +7,10 @@ import Loader from "../components/Loader";
 
 const Home = () => {
   const [favoritePosts, setFavoritePosts] = useState([]);
-  const { isLoggedIn } = useSelector((state) => state.auth);
   const { posts, loading, error, page, hasMore } = useSelector(
     (state) => state.posts
   );
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const observer = useRef(null);
   const loaderRef = useRef(null);
 
