@@ -31,7 +31,7 @@ const BlogDetails = () => {
     <div className="max-w-4xl w-full mx-auto">
       <div className="pt-6 lg:pt-10 pb-12 mx-auto">
         <div className="">
-          {blog?.tags?.map((tag) => ` ${tag} `)}
+          {/* {blog?.tags?.map((tag) => ` ${tag} `)} */}
           <div className="flex justify-between items-center mb-6">
             <div className="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
               <div className="shrink-0">

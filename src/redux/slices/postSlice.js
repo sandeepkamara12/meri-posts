@@ -6,10 +6,9 @@ export const getAllPosts = createAsyncThunk(
   async (page, { rejectWithValue }) => {
     try {
       let response = await axios.get(
-        `${process.env.REACT_APP_URL}postsData`
+        `${process.env.REACT_APP_URL}posts?delay=1000&limit=10&skip=${page * 10}`
       );
-      console.log(response?.posts, 'hi')
-      return response?.posts;
+      return response?.data?.posts;
     } catch (error) {
       return rejectWithValue(
         error?.response?.data?.message || "Error while getting all the posts."
@@ -50,12 +49,26 @@ export const getPostsByTags = createAsyncThunk(
   }
 );
 
+export const searchPosts = createAsyncThunk("posts/searchPosts", async(text,rejectWithValue)=>{
+  try {
+    let response = await axios.get(`${process.env.REACT_APP_URL}posts/search?q=${text}`);
+    
+    return response?.data?.posts
+  } catch (error) {
+    return rejectWithValue(
+      error?.response?.data?.message || "Error while searching posts."
+    );
+  }
+})
+
 const postSlice = createSlice({
   name: "posts",
   initialState: {
     posts: [],
     relatedPosts: [],
+    searchedPosts: [],
     loading: false,
+    searchLoading: false,
     error: null,
     page: 0,
     hasMore: true
@@ -87,6 +100,18 @@ const postSlice = createSlice({
       })
       .addCase(getPostsByTags.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(searchPosts.pending, (state) => {
+        state.searchLoading = true;
+        state.error = null;
+      })
+      .addCase(searchPosts.fulfilled, (state, action) => {
+        state.searchLoading = false;
+        state.searchedPosts = action.payload;
+      })
+      .addCase(searchPosts.rejected, (state, action) => {
+        state.searchLoading = false;
         state.error = action.payload;
       });
   }

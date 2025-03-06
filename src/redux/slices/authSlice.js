@@ -45,11 +45,11 @@ const authSlice = createSlice({
   },
   reducers:{
     logout:(state)=>{
-      console.log('you are logged out.')
+      // console.log('you are logged out.')
       state.isLoggedIn = false;
       localStorage.removeItem(TOKEN_KEY);
       // console.log(JSON.stringify(state), 'state is')
-      state.user = {}
+      // state.user = {}
       // return initialState
     }
   },

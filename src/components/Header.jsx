@@ -1,37 +1,45 @@
 import { Link, useNavigate } from "react-router-dom";
 import SearchbarResult from "./SearchbarResult";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import { allPosts } from "../data";
 import NoPostFound from "./NoPostFound";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
-import { persistor } from "../redux/store";
+import { searchPosts } from "../redux/slices/postSlice";
+import useDebounce from "../hooks/useDebounce";
+// import { persistor } from "../redux/store";
 
 const Header = () => {
-  const [searchQuery, setSearchQuery] = useState("");
   const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { searchedPosts, searchLoading} = useSelector((state) => state.posts);
   const [isOpenProfileDropdown, setIsOpenProfileDropdown] = useState(false);
+
+  const [inputValue, setInputValue] = useState('');
+  const debouncedInputValue = useDebounce(inputValue, 300);
+
+  const fetchSearchResults = async (query) => {
+    await dispatch(searchPosts(query));
+  };
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  useEffect(() => {
+    if(debouncedInputValue!=="") {
+      fetchSearchResults(debouncedInputValue);
+    }
+  }, [debouncedInputValue]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // Filter posts based on search query
-  const filteredPosts = allPosts.filter(
-    (post) =>
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.categories.some((category) =>
-        category.toLowerCase().includes(searchQuery.toLowerCase())
-      ) ||
-      post.author.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   const handleLogout = () => {
     dispatch(logout());
-    persistor.purge(); // Clears persisted state
+    // persistor.purge();
     navigate("/login");
-    // window.location.reload();
   };
-
+  
   return (
     <>
       <header className="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-[48] w-full bg-white text-sm py-4 md:py-8 border-b border-gray px-4 sm:px-6">
@@ -71,20 +79,25 @@ const Header = () => {
                   type="text"
                   className="py-2 ps-10 pe-16 block w-full bg-white border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                   placeholder="Search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  value={inputValue}
+                  onChange={handleInputChange}
                 />
-                {searchQuery && filteredPosts.length > 0 ? (
-                  <SearchbarResult filteredPosts={filteredPosts} />
-                ) : (
-                  <NoPostFound />
-                )}
-                <div className="hidden absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-1">
+                {
+                  debouncedInputValue && searchedPosts.length > 0 && 
+                    <SearchbarResult searchedPosts={searchedPosts} loading={searchLoading} />
+                }
+                {
+                  debouncedInputValue && searchedPosts.length === 0 && <NoPostFound />
+                }
+                {
+                  debouncedInputValue !== "" && !searchLoading &&
+                <div className="absolute inset-y-0 end-0 flex items-center z-50 pe-1">
                   <button
                     type="button"
-                    className="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500"
+                    onClick={()=>{setInputValue(""); console.log('hellodear')}}
+                    className="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
                     aria-label="Close"
-                  >
+                    >
                     <span className="sr-only">Close</span>
                     <svg
                       className="shrink-0 size-4"
@@ -97,22 +110,26 @@ const Header = () => {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                    >
+                      >
                       <circle cx="12" cy="12" r="10" />
                       <path d="m15 9-6 6" />
                       <path d="m9 9 6 6" />
                     </svg>
                   </button>
                 </div>
-                <div className="absolute inset-y-0 end-2 flex items-center pointer-events-none z-20 pe-1">
+                    }
+                {
+searchLoading &&
+                  <div className="absolute inset-y-0 end-2 flex items-center pointer-events-none z-20 pe-1">
                   <div
                     className="animate-spin inline-block size-4 border-[2px] border-black border-t-transparent text-blue-600 rounded-full"
                     role="status"
                     aria-label="loading"
-                  >
+                    >
                     <span className="sr-only">Loading...</span>
                   </div>
                 </div>
+                  }
               </div>
             </div>
             <div className="flex flex-row items-center justify-end gap-1">
