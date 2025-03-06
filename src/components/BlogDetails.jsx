@@ -288,26 +288,50 @@ const BlogDetails = () => {
       <div className="sticky bottom-6 inset-x-0 text-center">
         <div className="inline-block bg-white shadow-md rounded-full py-3 px-4">
           <div className="flex items-center gap-x-1.5">
+
             <div className="hs-tooltip inline-block">
               <button
                 type="button"
                 className="hs-tooltip-toggle flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800"
               >
-                <svg
-                  className="shrink-0 size-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                <svg xmlns="http://www.w3.org/2000/svg" className="size-4 shrink-0" viewBox="0 0 512 512"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" /></svg>
+                {blog?.reactions?.likes}
+                <span
+                  className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm"
+                  role="tooltip"
                 >
-                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                </svg>
-                875
+                  Like
+                </span>
+              </button>
+            </div>
+
+            <div className="block h-3 border-e border-gray-300 mx-3"></div>
+
+            <div className="hs-tooltip inline-block">
+              <button
+                type="button"
+                className="hs-tooltip-toggle flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="size-4 shrink-0" viewBox="0 0 512 512"><path d="M119.4 44.1c23.3-3.9 46.8-1.9 68.6 5.3l49.8 77.5-75.4 75.4c-1.5 1.5-2.4 3.6-2.3 5.8s1 4.2 2.6 5.7l112 104c2.9 2.7 7.4 2.9 10.5 .3s3.8-7 1.7-10.4l-60.4-98.1 90.7-75.6c2.6-2.1 3.5-5.7 2.4-8.8L296.8 61.8c28.5-16.7 62.4-23.2 95.7-17.6C461.5 55.6 512 115.2 512 185.1l0 5.8c0 41.5-17.2 81.2-47.6 109.5L283.7 469.1c-7.5 7-17.4 10.9-27.7 10.9s-20.2-3.9-27.7-10.9L47.6 300.4C17.2 272.1 0 232.4 0 190.9l0-5.8c0-69.9 50.5-129.5 119.4-141z" /></svg>
+                {blog?.reactions?.dislikes}
+                <span
+                  className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm"
+                  role="tooltip"
+                >
+                  Like
+                </span>
+              </button>
+            </div>
+
+            <div className="block h-3 border-e border-gray-300 mx-3"></div>
+
+            <div className="hs-tooltip inline-block">
+              <button
+                type="button"
+                className="hs-tooltip-toggle flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="shrink-0 size-4" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" /></svg>
+                {blog?.views}
                 <span
                   className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm"
                   role="tooltip"
@@ -455,6 +479,7 @@ const BlogDetails = () => {
                 </a>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -463,6 +488,8 @@ const BlogDetails = () => {
       {/* <Comment /> */}
 
       <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 md:gap-4">
+        {
+          relatedPosts && relatedPosts?.length>0 &&
         <div className="col-span-1 md:col-span-3 lg:col-span-3 md:mb-4">
           <h2 className="text-xl font-bold md:text-2xl md:leading-tight dark:text-white">
             Related Posts
@@ -472,6 +499,7 @@ const BlogDetails = () => {
             engagement with Preline.
           </p>
         </div>
+        }
 
         {relatedPosts &&
           relatedPosts

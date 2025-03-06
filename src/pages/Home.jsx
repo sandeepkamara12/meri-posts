@@ -72,7 +72,7 @@ const Home = () => {
           </div>
         }
       {error && <p>Error: {error}</p>}
-      <div ref={loaderRef} style={{ height: "10px" }}></div>
+      <div ref={loaderRef} className="h-2.5"></div>
     </div>
   );
 };

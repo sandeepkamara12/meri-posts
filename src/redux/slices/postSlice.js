@@ -3,12 +3,13 @@ import axios from "axios";
 
 export const getAllPosts = createAsyncThunk(
   "posts/getAllPost",
-  async (page, { rejectWithValue }) => {
+  async (page, {rejectWithValue }) => {
     try {
       let response = await axios.get(
         `${process.env.REACT_APP_URL}posts?delay=1000&limit=10&skip=${page * 10}`
       );
-      return response?.data?.posts;
+      console.log(response, 'hola dear');
+      return response?.data;
     } catch (error) {
       return rejectWithValue(
         error?.response?.data?.message || "Error while getting all the posts."
@@ -70,6 +71,7 @@ export const getPostByUserId = createAsyncThunk("posts/getPostByUserId",async(us
     );
   }
 });
+
 //Related Posts at Blog Details, also need to set the limit for 3 posts.
 export const getRelatedPosts = createAsyncThunk("posts/relatedPosts", async({userId, tags, currentPostId}, {dispatch, rejectWithValue})=>{
   if(userId) {
@@ -90,6 +92,7 @@ export const getRelatedPosts = createAsyncThunk("posts/relatedPosts", async({use
     }
   }
 })
+
 // export const getPostsByTags = createAsyncThunk(
 //   "posts/getPostsByTags",
 //   async ({ tags, fetchMore }, { getState, dispatch, rejectWithValue }) => {
@@ -138,7 +141,9 @@ const postSlice = createSlice({
   name: "posts",
   initialState: {
     posts: [],
-    post:{},
+    post: {},
+    totalPosts: 0,
+    totalPages:0,
     relatedPosts: [],
     searchedPosts: [],
     loading: false,
@@ -155,10 +160,15 @@ const postSlice = createSlice({
         state.error = null;
       })
       .addCase(getAllPosts.fulfilled, (state, action) => {
+        console.log(state.page, 'page count is');
         state.loading = false;
-        state.posts = [...state.posts, ...action.payload];
-        state.page += 1;
-        state.hasMore = action.payload.length > 0;
+        state.posts = [...state.posts, ...action.payload.posts];
+        state.totalPosts = action.payload.total;
+        state.totalPages = Math.ceil(action.payload.total / 10)
+        if (state.page < state.totalPages) {
+          state.page += 1;
+        }
+        state.hasMore = action.payload.posts.length > 0;
       })
       .addCase(getAllPosts.rejected, (state, action) => {
         state.loading = false;
