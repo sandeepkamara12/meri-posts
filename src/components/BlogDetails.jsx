@@ -5,7 +5,8 @@ import Post from "./Post";
 import UserComments from "./UserComments";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "./Loader";
-import { getPostsByTags } from "../redux/slices/postSlice";
+import { getPostByUserId, getPostsByTags, getRelatedPosts, getSinglePost } from "../redux/slices/postSlice";
+import { getUserById } from "../redux/slices/userSlice";
 
 const BlogDetails = () => {
   const { id } = useParams();
@@ -13,25 +14,45 @@ const BlogDetails = () => {
   const navigate = useNavigate();
   const [blog, setBlog] = useState(null);
   const [user, setUser] = useState(null);
-  const { posts, relatedPosts } = useSelector((state) => state.posts);
+  const { post, relatedPosts } = useSelector((state) => state.posts);
   const { users } = useSelector((state) => state.users);
 
+  //Get Blog Details on page render
   useEffect(() => {
-    const selectedBlog = posts.find((post) => post.id === parseInt(id));
-    setBlog(selectedBlog);
-    setUser(users[selectedBlog?.userId]);
-  }, [id, posts, users]);
+    if (id) {
+      dispatch(getSinglePost(id));
+    }
+  }, [dispatch, id]);
+  
+  //Get related posts of blog details
+  useEffect(()=>{
+    dispatch(getRelatedPosts({userId:post?.userId, tags:post?.tags, currentPostId:post?.id}));
+  },[dispatch, post?.userId, post?.tags, post?.id]);
+  
+  //Set current user from user list object
+  useEffect(() => {
+    setBlog(post);
+    if (post?.id) {
+      setUser(users[post?.userId]);
+    }
+  }, [post, users]);
 
-  useEffect(() => {
-    dispatch(getPostsByTags({ tags: blog?.tags, fetchMore: false }));
-  }, [dispatch, blog?.tags]);
+  //Get user information for current blog details
+  useEffect(()=>{
+    if(post?.userId) {
+      dispatch(getUserById(post?.userId));
+    }
+  },[dispatch, post?.userId]);
+
+  // useEffect(() => {
+  //   dispatch(getPostsByTags({tags:blog?.tags,userId:post?.userId }));
+  // }, [dispatch, blog?.tags, post?.userId]);
 
   if (!blog) return <Loader />;
   return (
     <div className="max-w-4xl w-full mx-auto">
       <div className="pt-6 lg:pt-10 pb-12 mx-auto">
         <div className="">
-          {/* {blog?.tags?.map((tag) => ` ${tag} `)} */}
           <div className="flex justify-between items-center mb-6">
             <div className="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
               <div className="shrink-0">
@@ -41,7 +62,7 @@ const BlogDetails = () => {
                   alt="Avatar"
                 />
               </div>
-
+{/* <input type="number" name="user_post" value={user_id} onChange={(e)=>setUser_id(e.target.value)} /> */}
               <div className="grow">
                 <div className="flex justify-between items-center gap-x-2">
                   <div>
@@ -52,52 +73,52 @@ const BlogDetails = () => {
                         </span>
 
                         {/* <div className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 max-w-xs cursor-default bg-gray-900 divide-y divide-gray-700 shadow-lg rounded-xl" role="tooltip">
-                          <div className="p-4 sm:p-5">
-                            <div className="mb-2 flex w-full sm:items-center gap-x-5 sm:gap-x-3">
-                              <div className="shrink-0">
-                                <img className="size-8 rounded-full" src="https://images.unsplash.com/photo-1669837401587-f9a4cfe3126e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar" />
-                              </div>
-
-                              <div className="grow">
-                                <p className="text-lg font-semibold text-gray-200">
-                                  Leyla Ludic
-                                </p>
-                              </div>
-                            </div>
-                            <p className="text-sm text-gray-400">
-                              Leyla is a Customer Success Specialist at Preline and spends her time speaking to in-house recruiters all over the world.
-                            </p>
-                          </div>
-
-                          <div className="flex justify-between items-center px-4 py-3 sm:px-5">
-                            <ul className="text-xs space-x-3">
-                              <li className="inline-block">
-                                <span className="font-semibold text-gray-200">56</span>
-                                <span className="text-gray-400">articles</span>
-                              </li>
-                              <li className="inline-block">
-                                <span className="font-semibold text-gray-200">1k+</span>
-                                <span className="text-gray-400">followers</span>
-                              </li>
-                            </ul>
-
-                            <div>
-                              <button type="button" className="py-1.5 px-2.5 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                                <svg className="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                  <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                                  <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
-                                </svg>
-                                Follow
-                              </button>
-                            </div>
-                          </div>
-                        </div> */}
+      <div className="p-4 sm:p-5">
+      <div className="mb-2 flex w-full sm:items-center gap-x-5 sm:gap-x-3">
+      <div className="shrink-0">
+      <img className="size-8 rounded-full" src="https://images.unsplash.com/photo-1669837401587-f9a4cfe3126e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Avatar" />
+      </div>
+      
+      <div className="grow">
+      <p className="text-lg font-semibold text-gray-200">
+      Leyla Ludic
+      </p>
+      </div>
+      </div>
+      <p className="text-sm text-gray-400">
+      Leyla is a Customer Success Specialist at Preline and spends her time speaking to in-house recruiters all over the world.
+      </p>
+      </div>
+      
+      <div className="flex justify-between items-center px-4 py-3 sm:px-5">
+      <ul className="text-xs space-x-3">
+      <li className="inline-block">
+      <span className="font-semibold text-gray-200">56</span>
+      <span className="text-gray-400">articles</span>
+      </li>
+      <li className="inline-block">
+      <span className="font-semibold text-gray-200">1k+</span>
+      <span className="text-gray-400">followers</span>
+      </li>
+      </ul>
+      
+      <div>
+      <button type="button" className="py-1.5 px-2.5 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+      <svg className="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+      <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+      </svg>
+      Follow
+      </button>
+      </div>
+      </div>
+      </div> */}
                       </div>
                     </div>
 
                     <ul className="text-xs text-gray-500">
                       <li className="inline-block relative pe-6 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-2 before:-translate-y-1/2 before:size-1 before:bg-gray-300 before:rounded-full">
-                        {moment(blog?.date).format("MMM Do YYYY, h:mm a")}
+                        {moment(post?.date).format("MMM Do YYYY, h:mm a")}
                       </li>
                     </ul>
                   </div>
@@ -125,6 +146,13 @@ const BlogDetails = () => {
             </div>
           </div>
 
+          <div className="flex flex-wrap items-center gap-1 mb-4">
+          {
+            blog?.tags?.map((tag) => 
+              <a key={tag} className="capitalize cursor-pointer transition hover:text-white hover:bg-blue-600 inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-neutral-200" href="/">{tag}</a>
+            )
+          } 
+            </div>
           <div className="space-y-5 md:space-y-8">
             <div className="space-y-3">
               {/* text-md text-gray-800 transition group-hover:text-blue-600 hover:text-blue-600 */}
@@ -156,29 +184,29 @@ const BlogDetails = () => {
                 alt="Blog"
               />
               {/* <figcaption className="mt-3 text-sm text-center text-gray-500">
-                A woman sitting at a table.
-              </figcaption> */}
+        A woman sitting at a table.
+        </figcaption> */}
             </figure>
 
             {/* <div className="text-center">
-              <div className="grid lg:grid-cols-2 gap-3">
-                <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
-                  <figure className="relative w-full h-60">
-                    <img className="size-full absolute top-0 start-0 object-cover rounded-xl" src="https://images.unsplash.com/photo-1670272505340-d906d8d77d03?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=560&amp;q=80" alt="Blog" />
-                  </figure>
-                  <figure className="relative w-full h-60">
-                    <img className="size-full absolute top-0 start-0 object-cover rounded-xl" src="https://images.unsplash.com/photo-1671726203638-83742a2721a1?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=560&amp;q=80" alt="Blog" />
-                  </figure>
-                </div>
-                <figure className="relative w-full h-72 sm:h-96 lg:h-full">
-                  <img className="size-full absolute top-0 start-0 object-cover rounded-xl" src="https://images.unsplash.com/photo-1671726203394-491c8b574a0a?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=560&amp;q=80" alt="Blog" />
-                </figure>
-              </div>
-
-              <span className="mt-3 block text-sm text-center text-gray-500 dark:text-neutral-500">
-                Working process
-              </span>
-            </div> */}
+          <div className="grid lg:grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
+          <figure className="relative w-full h-60">
+          <img className="size-full absolute top-0 start-0 object-cover rounded-xl" src="https://images.unsplash.com/photo-1670272505340-d906d8d77d03?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=560&amp;q=80" alt="Blog" />
+          </figure>
+          <figure className="relative w-full h-60">
+          <img className="size-full absolute top-0 start-0 object-cover rounded-xl" src="https://images.unsplash.com/photo-1671726203638-83742a2721a1?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=560&amp;q=80" alt="Blog" />
+          </figure>
+          </div>
+          <figure className="relative w-full h-72 sm:h-96 lg:h-full">
+          <img className="size-full absolute top-0 start-0 object-cover rounded-xl" src="https://images.unsplash.com/photo-1671726203394-491c8b574a0a?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=560&amp;q=80" alt="Blog" />
+          </figure>
+          </div>
+          
+          <span className="mt-3 block text-sm text-center text-gray-500 dark:text-neutral-500">
+          Working process
+          </span>
+          </div> */}
 
             <ul className="flex flex-col justify-end text-start -space-y-px">
               <li className="flex items-center gap-x-2 p-3 text-sm bg-white border text-gray-800 first:rounded-t-lg first:mt-0 last:rounded-b-lg">
@@ -457,10 +485,10 @@ const BlogDetails = () => {
               />
             ))}
       </div>
-      <div className="my-12 text-center col-span-1 md:col-span-2 lg:col-span-3">
+      {/* <div className="my-12 text-center col-span-1 md:col-span-2 lg:col-span-3">
         <button
           className="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-full border border-gray-200 bg-white text-blue-600 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-blue-500 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-          onClick={()=>navigate('/related-posts', { state: blog?.tags })}
+          onClick={() => navigate("/related-posts", { state: blog?.tags })}
         >
           Read more
           <svg
@@ -478,7 +506,7 @@ const BlogDetails = () => {
             <path d="m9 18 6-6-6-6"></path>
           </svg>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
