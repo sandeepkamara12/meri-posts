@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const SharePostSocial = () => {
+const SharePostSocial = ({classes}) => {
     const [isOpenShareDropdown, setIsOpenShareDropdown] = useState(false);
     // const [openShareDropdown, setOpenShareDropdown] = useState(null);
     const dropdownRef = useRef(null);
@@ -33,7 +33,7 @@ const SharePostSocial = () => {
                 onClick={() => toggleDropdown()}
                 id="hs-blog-article-share-dropdown"
                 type="button"
-                className="w-full py-2 sm:py-0 px-3 sm:px-0 focus:outline-none focus:bg-gray-50 font-medium rounded-lg bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none hs-tooltip-toggle flex items-center justify-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800"
+                className={`w-full py-2 sm:py-0 px-3 sm:px-0 focus:outline-none focus:bg-gray-50 font-medium rounded-lg bg-white text-gray-800 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none hs-tooltip-toggle flex items-center justify-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800 ${classes}`}
                 aria-haspopup="menu"
                 aria-expanded="false"
                 aria-label="Dropdown"

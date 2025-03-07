@@ -376,7 +376,7 @@ const BlogDetails = () => {
 
             <div className="hidden sm:block h-3 border-e border-gray-300 mx-3"></div>
 
-          <SharePostSocial />
+            <SharePostSocial classes="border border-gray-200 shadow-sm" />
 
           </div>
         </div>
