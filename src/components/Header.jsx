@@ -13,6 +13,7 @@ const Header = () => {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   const { searchedPosts, searchLoading} = useSelector((state) => state.posts);
   const [isOpenProfileDropdown, setIsOpenProfileDropdown] = useState(false);
+  const [toggleSearchbar, setToggleSearchbar] = useState(false);
 
   const [inputValue, setInputValue] = useState('');
   const debouncedInputValue = useDebounce(inputValue, 300);
@@ -55,8 +56,8 @@ const Header = () => {
             <div className="lg:hidden ms-1"></div>
           </div>
 
-          <div className="w-full flex items-center justify-end ms-auto md:justify-between gap-x-1 md:gap-x-3">
-            <div className="hidden md:block w-[300px]">
+          <div className="w-full flex items-center justify-end ms-auto sm:justify-between gap-x-1 sm:gap-x-3">
+            <div className={`${toggleSearchbar ? 'absolute left-4 w-[calc(100%-32px)] top-[70px]' : 'hidden'} sm:relative sm:top-auto sm:left-0 sm:block sm:w-[300px]`}>
               <div className="relative">
                 <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
                   <svg
@@ -94,7 +95,7 @@ const Header = () => {
                 <div className="absolute inset-y-0 end-0 flex items-center z-50 pe-1">
                   <button
                     type="button"
-                    onClick={()=>{setInputValue(""); console.log('hellodear')}}
+                    onClick={()=>setInputValue("")}
                     className="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
                     aria-label="Close"
                     >
@@ -119,16 +120,16 @@ const Header = () => {
                 </div>
                     }
                 {
-searchLoading &&
+                  searchLoading &&
                   <div className="absolute inset-y-0 end-2 flex items-center pointer-events-none z-20 pe-1">
-                  <div
-                    className="animate-spin inline-block size-4 border-[2px] border-black border-t-transparent text-blue-600 rounded-full"
-                    role="status"
-                    aria-label="loading"
-                    >
-                    <span className="sr-only">Loading...</span>
+                    <div
+                      className="animate-spin inline-block size-4 border-[2px] border-black border-t-transparent text-blue-600 rounded-full"
+                      role="status"
+                      aria-label="loading"
+                      >
+                      <span className="sr-only">Loading...</span>
+                    </div>
                   </div>
-                </div>
                   }
               </div>
             </div>
@@ -151,7 +152,8 @@ searchLoading &&
               ) : null}
               <button
                 type="button"
-                className="md:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none "
+                className="sm:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none "
+                onClick={() => setToggleSearchbar(!toggleSearchbar)}
               >
                 <svg
                   className="shrink-0 size-4"
