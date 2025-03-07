@@ -288,7 +288,7 @@ const BlogDetails = () => {
       </div>
 
       <div className="sticky bottom-6 inset-x-0 text-center">
-        <div className="inline-block bg-white sm:shadow-md rounded-full py-3 px-4 w-full sm:w-auto">
+        <div className="inline-block bg-white sm:shadow-md rounded-xs sm:rounded-full py-3 px-4 w-full sm:w-auto">
           <div className="grid grid-cols-3 sm:grid-cols-auto sm:flex items-center flex-col sm:flex-row gap-x-1.5 gap-y-1.5">
 
             <div className="hs-tooltip inline-block w-full sm:w-auto">
