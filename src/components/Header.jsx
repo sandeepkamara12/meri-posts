@@ -152,7 +152,7 @@ const Header = () => {
               ) : null}
               <button
                 type="button"
-                className="sm:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none "
+                className={`sm:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 ${toggleSearchbar ? 'bg-gray-100' : ''} disabled:opacity-50 disabled:pointer-events-none`}
                 onClick={() => setToggleSearchbar(!toggleSearchbar)}
               >
                 <svg
