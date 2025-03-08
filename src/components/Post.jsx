@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import SharePostSocial from "./SharePostSocial";
@@ -13,6 +13,7 @@ const Post = ({
   toggleFavorite,
 }) => {
   const { users } = useSelector((state) => state.users);
+  const navigate = useNavigate();
   const user = users[post.userId];
 
   const [isChecked, setIsChecked] = useState(false);
@@ -77,13 +78,13 @@ const Post = ({
                   {post?.tags &&
                     post?.tags?.length > 0 &&
                     post?.tags?.map((category, index) => (
-                      <Link
-                        to="/"
+                      <div
+                        onClick={()=>navigate(`/tag-posts?tag=${category}`)}
                         key={index}
                         className="capitalize cursor-pointer transition hover:text-white hover:bg-blue-600 inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-neutral-200"
                       >
                         {category}
-                      </Link>
+                      </div>
                     ))}
                 </div>
                 <ul
