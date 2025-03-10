@@ -18,6 +18,7 @@ const Requirements = () => {
                     Also need to work on the comment section.
                 </li>
                 <li>need to add instagram and linkedin icons in social share network</li>
+                <li>Need to share the post on single and list pages.</li>
             </ul>
         </div>
     );

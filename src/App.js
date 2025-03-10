@@ -11,7 +11,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import PublicRoute from "./components/PublicRoute";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserProfile from "./pages/UserProfile";
-import RelatedPosts from "./pages/RelatedPosts";
+import TagPosts from "./pages/TagPosts";
 
 function App() {
   return (
@@ -49,8 +49,8 @@ function App() {
               element={<ProtectedRoute><UserProfile /></ProtectedRoute>}
             />
             <Route
-              path="/related-posts"
-              element={<RelatedPosts />}
+              path="/tag-posts"
+              element={<TagPosts />}
             />
           </Routes>
 

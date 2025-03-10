@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Post from "../components/Post";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { getAllPosts } from "../redux/slices/postSlice";
 import Loader from "../components/Loader";
+import PostLoader from "../components/PostLoader";
 
 const Home = () => {
   const [favoritePosts, setFavoritePosts] = useState([]);
@@ -13,7 +13,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const observer = useRef(null);
   const loaderRef = useRef(null);
-
+  let layout = "";
   useEffect(() => {
     const savedFavorites =
       JSON.parse(localStorage.getItem("favoritePosts")) || [];
@@ -22,6 +22,8 @@ const Home = () => {
 
   useEffect(() => {
     if (loading || !hasMore) return;
+
+    if (observer.current) observer.current.disconnect(); // Disconnect previous observer
 
     observer.current = new IntersectionObserver(
       (entries) => {
@@ -59,7 +61,7 @@ const Home = () => {
           return (
             <Post
               key={post?.id}
-              alignment="vertical"
+              layout=""
               data={post}
               favoritePosts={favoritePosts}
               toggleFavorite={toggleFavorite}
@@ -68,12 +70,13 @@ const Home = () => {
         })}
         {
           loading &&
-           <div className="end-2 flex items-center justify-center pointer-events-none z-20 py-6">
-            <Loader />
-          </div>
+            <PostLoader layout="vertical" />
+          //  <div className="end-2 h-40 bg-red-800 flex items-center justify-center pointer-events-none z-20 py-6">
+          //   <Loader />
+          // </div>
         }
       {error && <p>Error: {error}</p>}
-      <div ref={loaderRef} style={{ height: "10px" }}></div>
+      <div ref={loaderRef} className="h-2.5"></div>
     </div>
   );
 };
