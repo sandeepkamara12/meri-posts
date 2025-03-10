@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import {  getPostsByTagName, resetTagPosts } from '../redux/slices/postSlice';
 import Post from '../components/Post';
+import PostLoader from '../components/PostLoader';
+import NoPostFound from '../components/NoPostFound';
 
 const TagPosts = () => {
   const dispatch = useDispatch();
@@ -45,8 +47,9 @@ const TagPosts = () => {
     <>
       <div className='w-full max-w-4xl mx-auto'>
       <div className="capitalize cursor-pointer transition hover:text-white hover:bg-blue-600 inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-neutral-200 mt-6">Posts by {tag }</div>
+      {loading ? <PostLoader /> : null}
     {
-      posts && posts?.length > 0 && posts?.map(post => {
+      posts && posts?.length > 0 ? posts?.map(post => {
         return (
           <Post
             key={post?.id}
@@ -57,6 +60,8 @@ const TagPosts = () => {
             />
           )
         })
+        :
+        <NoPostFound />
       }
       {error && <p>Error: {error}</p>}
       <div ref={loaderRef} className="h-2.5"></div>

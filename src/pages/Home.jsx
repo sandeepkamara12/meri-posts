@@ -70,10 +70,7 @@ const Home = () => {
         })}
         {
           loading &&
-            <PostLoader layout="vertical" />
-          //  <div className="end-2 h-40 bg-red-800 flex items-center justify-center pointer-events-none z-20 py-6">
-          //   <Loader />
-          // </div>
+            <PostLoader layout="" />
         }
       {error && <p>Error: {error}</p>}
       <div ref={loaderRef} className="h-2.5"></div>

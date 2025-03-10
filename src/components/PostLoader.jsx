@@ -5,8 +5,8 @@ const PostLoader = ({layout}) => {
         <div className="mt-5 space-y-3 animate-pulse">
             <div
                 className={`group posts relative last:border-0 ${layout === "vertical"
-                    ? "col-span-1 py-8 md:py-0 border-b border-gray md:border-0"
-                    : "border-b border-gray py-8"
+                    ? "col-span-1 border-b border-gray md:border-0"
+                    : "border-b border-gray"
                     }`}
             >
                 <div
