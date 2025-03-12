@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import Comment from "./Comment";
 import CommentList from "./CommentList";
 
-const UserComments = () => {
+const UserComments = ({postId}) => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   return (
     <section className="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
@@ -40,7 +40,7 @@ const UserComments = () => {
       )}
       {
 isLoggedIn ?
-          <CommentList /> :null
+          <CommentList postId={postId} /> :null
       }
     </section>
   );

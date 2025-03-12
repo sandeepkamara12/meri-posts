@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import SearchbarResult from "./SearchbarResult";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { allPosts } from "../data";
 import NoPostFound from "./NoPostFound";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,11 +11,11 @@ import useDebounce from "../hooks/useDebounce";
 
 const Header = () => {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
-  const { searchedPosts, searchLoading} = useSelector((state) => state.posts);
+  const { searchedPosts, searchLoading } = useSelector((state) => state.posts);
   const [isOpenProfileDropdown, setIsOpenProfileDropdown] = useState(false);
   const [toggleSearchbar, setToggleSearchbar] = useState(false);
 
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const debouncedInputValue = useDebounce(inputValue, 300);
 
   const fetchSearchResults = async (query) => {
@@ -27,7 +27,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if(debouncedInputValue!=="") {
+    if (debouncedInputValue !== "") {
       fetchSearchResults(debouncedInputValue);
     }
   }, [debouncedInputValue]);
@@ -40,7 +40,7 @@ const Header = () => {
     // persistor.purge();
     navigate("/login");
   };
-  
+
   return (
     <>
       <header className="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-[48] w-full bg-white text-sm py-4 md:py-8 border-b border-gray px-4 sm:px-6">
@@ -57,7 +57,13 @@ const Header = () => {
           </div>
 
           <div className="w-full flex items-center justify-end ms-auto sm:justify-between gap-x-1 sm:gap-x-3">
-            <div className={`${toggleSearchbar ? 'absolute left-4 w-[calc(100%-32px)] top-[70px]' : 'hidden'} sm:relative sm:top-auto sm:left-0 sm:block sm:w-[300px]`}>
+            <div
+              className={`${
+                toggleSearchbar
+                  ? "absolute left-4 w-[calc(100%-32px)] top-[70px]"
+                  : "hidden"
+              } sm:relative sm:top-auto sm:left-0 sm:block sm:w-[300px]`}
+            >
               <div className="relative">
                 <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
                   <svg
@@ -83,76 +89,80 @@ const Header = () => {
                   value={inputValue}
                   onChange={handleInputChange}
                 />
-                {
-                  debouncedInputValue && searchedPosts.length > 0 && 
-                    <SearchbarResult searchedPosts={searchedPosts} loading={searchLoading} />
-                }
-                {
-                  debouncedInputValue && searchedPosts.length === 0 && <NoPostFound />
-                }
-                {
-                  debouncedInputValue !== "" && !searchLoading &&
-                <div className="absolute inset-y-0 end-0 flex items-center z-50 pe-1">
-                  <button
-                    type="button"
-                    onClick={()=>setInputValue("")}
-                    className="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
-                    aria-label="Close"
+                {debouncedInputValue && searchedPosts.length > 0 && (
+                  <SearchbarResult
+                    searchedPosts={searchedPosts}
+                    loading={searchLoading}
+                  />
+                )}
+                {debouncedInputValue && searchedPosts.length === 0 && (
+                  <NoPostFound />
+                )}
+                {debouncedInputValue !== "" && !searchLoading && (
+                  <div className="absolute inset-y-0 end-0 flex items-center z-50 pe-1">
+                    <button
+                      type="button"
+                      onClick={() => setInputValue("")}
+                      className="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+                      aria-label="Close"
                     >
-                    <span className="sr-only">Close</span>
-                    <svg
-                      className="shrink-0 size-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                      <span className="sr-only">Close</span>
+                      <svg
+                        className="shrink-0 size-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="m15 9-6 6" />
-                      <path d="m9 9 6 6" />
-                    </svg>
-                  </button>
-                </div>
-                    }
-                {
-                  searchLoading &&
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="m15 9-6 6" />
+                        <path d="m9 9 6 6" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+                {searchLoading && (
                   <div className="absolute inset-y-0 end-2 flex items-center pointer-events-none z-20 pe-1">
                     <div
                       className="animate-spin inline-block size-4 border-[2px] border-black border-t-transparent text-blue-600 rounded-full"
                       role="status"
                       aria-label="loading"
-                      >
+                    >
                       <span className="sr-only">Loading...</span>
                     </div>
                   </div>
-                  }
+                )}
               </div>
             </div>
             <div className="flex flex-row items-center justify-end gap-1">
               {!isLoggedIn ? (
                 <>
-                  <Link
-                    to="/login"
-                    className="text-sm text-gray-800 dark:text-neutral-500"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="text-sm text-gray-800 dark:text-neutral-500"
-                  >
-                    Register
-                  </Link>
+                  <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
+                    <Link
+                      to="/login"
+                      className="font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                    >
+                      Register
+                    </Link>
+                  </div>
                 </>
               ) : null}
               <button
                 type="button"
-                className={`sm:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 ${toggleSearchbar ? 'bg-gray-100' : ''} disabled:opacity-50 disabled:pointer-events-none`}
+                className={`sm:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 ${
+                  toggleSearchbar ? "bg-gray-100" : ""
+                } disabled:opacity-50 disabled:pointer-events-none`}
                 onClick={() => setToggleSearchbar(!toggleSearchbar)}
               >
                 <svg

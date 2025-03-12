@@ -382,7 +382,7 @@ const BlogDetails = () => {
               </div>
             </div>
 
-            <UserComments />
+            <UserComments postId={blog?.id}/>
           
             <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 md:gap-4">
               {

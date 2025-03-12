@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from './slices/authSlice';
 import postReducer from './slices/postSlice';
 import userReducer from './slices/userSlice';
+import commentReducer from './slices/commentSlice';
 
 // import storage from "redux-persist/lib/storage"; // Defaults to localStorage
 // import { persistReducer, persistStore } from "redux-persist";
@@ -27,7 +28,8 @@ export const store = configureStore({
     reducer:{
         auth:authReducer,
         posts:postReducer,
-        users:userReducer
+        users:userReducer,
+        comments:commentReducer
     }
     // reducer: persistedReducer,
     // middleware: (getDefaultMiddleware) =>

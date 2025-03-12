@@ -1,6 +1,31 @@
 import React from 'react';
+import { useFormik } from "formik";
+import * as Yup from 'yup';
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 const Comment = () => {
+    const formik = useFormik({
+        initialValues:{
+          name:"",
+          email:"",
+          phone:"",
+          message:""
+        },
+        validationSchema:Yup.object({
+          name:Yup.string().min(3, "Name must be at least 3 characters")
+          .max(50, "Name cannot exceed 50 characters").required("Author name is required"),
+          email:Yup.string().email("Invalid email format").required("Author email is required"),
+          // phone:Yup.string().matches(/^[0-9]{10}$/, "Phone number must be 10 digits").required("Author phone is required"),
+          phone: Yup.string()
+          .test("valid-phone", "Invalid phone number", (value) => {
+            if (!value) return false;
+            const phoneNumber = parsePhoneNumberFromString(value);
+            return phoneNumber ? phoneNumber.isValid() : false;
+          })
+          .required("Author phone is required"),
+          message:Yup.string()
+        })
+    })
     return (
         <div className="py-10 lg:py-14 w-full">
                 <div className="">
@@ -13,28 +38,49 @@ const Comment = () => {
                 </div>
 
                 <div className="mt-12">
-                    <form>
+                    <form onSubmit={formik.handleSubmit}>
                         <div className="grid gap-4 lg:gap-6">
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
                                 <div>
-                                    <label htmlFor="hs-firstname-hire-us-2" className="block mb-2 text-sm text-gray-700 font-medium">First Name</label>
-                                    <input type="text" name="hs-firstname-hire-us-2" id="hs-firstname-hire-us-2" className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" />
+                                    <label htmlFor="name" className="block mb-2 text-sm text-gray-700 font-medium">Name</label>
+                                    <input type="text" name="name" id="name" className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" />
+                                    {
+                                        formik.touched.name && formik.errors.name ? (
+                                            <p className="text-xs text-red-600 mt-2">
+                                                    {formik.errors.name}
+                                            </p>
+                                        ) : null
+                                    }
                                 </div>
 
                             <div>
-                                <label htmlFor="hs-work-email-hire-us-2" className="block mb-2 text-sm text-gray-700 font-medium">Email</label>
-                                <input type="email" name="hs-work-email-hire-us-2" id="hs-work-email-hire-us-2" autoComplete="email" className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" />
+                                <label htmlFor="email" className="block mb-2 text-sm text-gray-700 font-medium">Email</label>
+                                <input type="email" name="email" id="email" autoComplete="email" className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" />
+                                {
+                                    formik.touched.email && formik.errors.email ? (
+                                        <p className="text-xs text-red-600 mt-2">
+                                                {formik.errors.email}
+                                        </p>
+                                    ) : null
+                                }
                             </div>
 
                                 <div>
                                     <label htmlFor="phone" className="block mb-2 text-sm text-gray-700 font-medium">Phone</label>
                                     <input type="tel" name="phone" id="phone" className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" />
+                                    {
+                                    formik.touched.phone && formik.errors.phone ? (
+                                        <p className="text-xs text-red-600 mt-2">
+                                                {formik.errors.phone}
+                                        </p>
+                                    ) : null
+                                }
                                 </div>
                             </div>                            
 
                             <div>
-                                <label htmlFor="hs-about-hire-us-2" className="block mb-2 text-sm text-gray-700 font-medium">Message</label>
-                                <textarea id="hs-about-hire-us-2" name="hs-about-hire-us-2" rows="6" className="resize-none py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"></textarea>
+                                <label htmlFor="message" className="block mb-2 text-sm text-gray-700 font-medium">Message</label>
+                                <textarea id="message" name="message" rows="6" className="resize-none py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"></textarea>
                             </div>
                         </div>
 
