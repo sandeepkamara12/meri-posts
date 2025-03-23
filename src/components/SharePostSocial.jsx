@@ -45,6 +45,7 @@ const SharePostSocial = ({classes}) => {
                 >
                     Share
                 </span>
+                <span>share</span>
             </button>
             <div
                 className={`hs-dropdown-menu w-56 transition-[opacity,margin] duration absolute left-0 top-full ${isOpenShareDropdown ? 'opacity-100 block' : 'opacity-0 hidden'} mb-1 z-10 bg-gray-900 shadow-md rounded-xl p-2`}

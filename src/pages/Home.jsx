@@ -3,7 +3,6 @@ import Post from "../components/Post";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../redux/slices/postSlice";
 import Loader from "../components/Loader";
-import PostLoader from "../components/PostLoader";
 
 const Home = () => {
   const [favoritePosts, setFavoritePosts] = useState([]);
@@ -69,8 +68,8 @@ const Home = () => {
           );
         })}
         {
-          loading &&
-            <PostLoader layout="" />
+          // loading &&
+            <Loader layout="" />
         }
       {error && <p>Error: {error}</p>}
       <div ref={loaderRef} className="h-2.5"></div>
