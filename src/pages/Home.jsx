@@ -3,15 +3,20 @@ import Post from "../components/Post";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../redux/slices/postSlice";
 import Loader from "../components/Loader";
+import PostLoader from "../components/PostLoader";
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
   const [favoritePosts, setFavoritePosts] = useState([]);
   const { posts, loading, error, page, hasMore } = useSelector(
     (state) => state.posts
   );
+  const location = useLocation();
+
   const dispatch = useDispatch();
   const observer = useRef(null);
   const loaderRef = useRef(null);
+
   let layout = "";
   useEffect(() => {
     const savedFavorites =
@@ -27,7 +32,6 @@ const Home = () => {
     observer.current = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          console.log("Fetching page:", page);
           dispatch(getAllPosts(page));
         }
       },
@@ -55,7 +59,7 @@ const Home = () => {
 
   return (
     <div className=" w-full max-w-4xl mx-auto">
-      {posts?.length > 0 &&
+      {posts?.length > 0 ?
         posts?.map((post) => {
           return (
             <Post
@@ -66,10 +70,12 @@ const Home = () => {
               toggleFavorite={toggleFavorite}
             />
           );
-        })}
+        }):
+        <PostLoader />
+        }
         {
-          // loading &&
-            <Loader layout="" />
+        posts?.length > 0 && loading &&
+          <Loader layout="" />
         }
       {error && <p>Error: {error}</p>}
       <div ref={loaderRef} className="h-2.5"></div>

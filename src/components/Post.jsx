@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SharePostSocial from "./SharePostSocial";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,17 +11,15 @@ const Post = ({
   data: post,
   favoritePosts = [],
   toggleFavorite,
+  postMetaInfoToShare
 }) => {
   const { users } = useSelector((state) => state.users);
   const navigate = useNavigate();
   const user = users[post.userId];
+  const [copied, setCopied] = useState(false);
 
-  const [isChecked, setIsChecked] = useState(false);
   const dispatch = useDispatch();
 
-  const handleToggle = () => {
-    setIsChecked(!isChecked);
-  };
 
   useEffect(() => {
     const fetchUserById = async () => {
@@ -31,6 +29,40 @@ const Post = ({
       fetchUserById();
     }
   }, [dispatch, post?.userId, user]);
+
+  const [isOpenShareDropdown, setIsOpenShareDropdown] = useState(false);
+  // const [openShareDropdown, setOpenShareDropdown] = useState(null);
+  const dropdownRef = useRef(null);
+  const toggleDropdown = () => {
+    setIsOpenShareDropdown((prev) => !prev);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpenShareDropdown(false);
+      }
+    };
+
+    if (isOpenShareDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpenShareDropdown]);
+
+  const handleCopy = (id) => {
+    const url = `${window.location.origin}/${id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // Reset after 2s
+    }).catch(err => console.error("Copy failed", err));
+  };
 
   return (
     <>  
@@ -92,91 +124,48 @@ const Post = ({
                     layout === "vertical" ? "" : "md:ms-auto"
                   } flex flex-wrap items-center space-x-1`}
                 >
-                  <li
-                    className="relative"
-                    data-hs-tooltip="true"
-                    title="Share to social networks"
-                  >
-                    <SharePostSocial />
-                  </li>
-                  <li
-                    className="relative"
-                    data-hs-tooltip="true"
-                    title="Add in your favorite"
-                  >
-                    <div className="flex">
-                      <input
-                        type="checkbox"
-                        checked={favoritePosts.includes(post.id)}
-                        onChange={handleToggle}
-                        className="hidden shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                        id="hs-default-checkbox"
-                      />
-                      <label
-                        htmlFor="hs-default-checkbox"
-                        className="text-sm text-gray-500"
-                      >
-                        <button
-                          type="button"
-                          onClick={() => toggleFavorite(post.id)}
-                          className={`size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent ${
-                            favoritePosts.includes(post.id)
-                              ? "bg-red-000"
-                              : "text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                          }`}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill={
-                              favoritePosts.includes(post.id)
-                                ? "#dc2626"
-                                : "none"
-                            }
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke={
-                              favoritePosts.includes(post.id)
-                                ? "#dc2626"
-                                : "currentColor"
-                            }
-                            className="shrink-0 size-4"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                            />
-                          </svg>
-                        </button>
-                      </label>
-                    </div>
-                  </li>
-
-                  <li
-                    className="relative"
-                    data-hs-tooltip="true"
-                    title="Forward to followers"
-                  >
+                  <li className="flex flex-wrap items-center">
                     <button
                       type="button"
-                      className="size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                      onClick={() => handleCopy(post?.id)}
+                      className="size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                        className="shrink-0 size-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m15 15 6-6m0 0-6-6m6 6H9a6 6 0 0 0 0 12h3"
-                        />
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-4 shrink-0">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
                       </svg>
                     </button>
                   </li>
+                  <li
+                    className="relative flex flex-wrap items-center"
+                    data-hs-tooltip="true"
+                    title="Share to social networks"
+                  >
+                    <div className="hs-dropdown relative inline-flex" ref={dropdownRef}>
+                      <button
+                        onClick={() => toggleDropdown()}
+                        id="hs-blog-article-share-dropdown"
+                        type="button"
+                        className={`w-full py-2 sm:py-0 px-3 sm:px-0 focus:outline-none focus:bg-gray-50 font-medium rounded-lg bg-white text-gray-800 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none hs-tooltip-toggle flex items-center justify-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800`}
+                        aria-haspopup="menu"
+                        aria-expanded="false"
+                        aria-label="Dropdown"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="shrink-0 size-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"></path></svg>
+                        <span
+                          className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm"
+                          role="tooltip"
+                        >
+                          Share
+                        </span>
+                        <span>share</span>
+                      </button>
+                      {
+                        isOpenShareDropdown && post &&
+                          <SharePostSocial post={post} isOpenShareDropdown={isOpenShareDropdown} />
+                      }
+                    </div>
+                  </li>
+                 
                   <li className="flex flex-wrap items-center">
                     <button
                       type="button"
