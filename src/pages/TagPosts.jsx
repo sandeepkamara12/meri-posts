@@ -5,6 +5,7 @@ import {  getPostsByTagName, resetTagPosts } from '../redux/slices/postSlice';
 import Post from '../components/Post';
 import PostLoader from '../components/PostLoader';
 import NoPostFound from '../components/NoPostFound';
+import Loader from '../components/Loader';
 
 const TagPosts = () => {
   const dispatch = useDispatch();
@@ -62,7 +63,12 @@ const TagPosts = () => {
         })
         :
         <NoPostFound />
-      }
+        }
+        {
+          posts?.length > 0 && loading &&
+          <Loader layout="" />
+        }
+        
       {error && <p>Error: {error}</p>}
       <div ref={loaderRef} className="h-2.5"></div>
       </div>

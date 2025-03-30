@@ -1,12 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
-const SearchbarResult = ({ searchedPosts }) => {
+const SearchbarResult = ({ searchedPosts, setInputValue }) => {
+  const navigate = useNavigate()
   return (
     <div className="absolute top-[calc(100%+5px)] z-50 w-full bg-white border border-gray-200 rounded-lg dark:bg-neutral-800 dark:border-neutral-700">
       <div className="max-h-72 rounded-b-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
         {searchedPosts?.map((post) => (
-          <span
+          <div
+            onClick={() => { setInputValue(""); navigate(`/${post?.id}`)}}
             key={post.id}
             className="flex items-center cursor-pointer py-2 px-4 w-full text-sm text-gray-800 hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-200"
           >
@@ -19,12 +21,11 @@ const SearchbarResult = ({ searchedPosts }) => {
                 />
               </div>
               <div className="flex flex-wrap items-start flex-col w-[calc(100%-42px)]">
-                <Link
-                  to={`/${post?.id}`}
+                <span
                   className="w-full font-medium text-md text-gray-800 dark:text-neutral-200 truncate"
                 >
                   {post?.title}
-                </Link>
+                </span>
                 <span className="text-sm text-gray-500 dark:text-neutral-500">
                   Elly muskon
                 </span>
@@ -48,7 +49,7 @@ const SearchbarResult = ({ searchedPosts }) => {
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             </span> */}
-          </span>
+          </div>
         ))}
       </div>
     </div>

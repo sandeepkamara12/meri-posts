@@ -120,6 +120,10 @@ const postSlice = createSlice({
         hasMore: true,
       };
     },
+    clearPost: (state) => {
+      state.post = {};
+      state.loading = false;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -195,5 +199,5 @@ const postSlice = createSlice({
       });
   }
 });
-export const { resetTagPosts} = postSlice.actions;
+export const { resetTagPosts, clearPost } = postSlice.actions;
 export default postSlice.reducer;

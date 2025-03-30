@@ -1,15 +1,19 @@
 import { Link, useNavigate } from "react-router-dom";
 import SearchbarResult from "./SearchbarResult";
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { allPosts } from "../data";
 import NoPostFound from "./NoPostFound";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
 import { searchPosts } from "../redux/slices/postSlice";
 import useDebounce from "../hooks/useDebounce";
+import useClickOutside from "../services/useClickOutside";
 // import { persistor } from "../redux/store";
 
 const Header = () => {
+  const [open, setOpen] = useState(false);
+  const searchRef = useRef(null);
+  const profileDropdownRef = useRef(null);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   const { searchedPosts, searchLoading } = useSelector((state) => state.posts);
   const [isOpenProfileDropdown, setIsOpenProfileDropdown] = useState(false);
@@ -41,6 +45,9 @@ const Header = () => {
     navigate("/login");
   };
 
+  useClickOutside(searchRef, () => setInputValue(""));
+  useClickOutside(profileDropdownRef, () => setIsOpenProfileDropdown(false));
+
   return (
     <>
       <header className="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-[48] w-full bg-white text-sm py-4 md:py-8 border-b border-gray px-4 sm:px-6">
@@ -58,11 +65,11 @@ const Header = () => {
 
           <div className="w-full flex items-center justify-end ms-auto sm:justify-between gap-x-1 sm:gap-x-3">
             <div
-              className={`${
-                toggleSearchbar
-                  ? "absolute left-4 w-[calc(100%-32px)] top-[70px]"
-                  : "hidden"
-              } sm:relative sm:top-auto sm:left-0 sm:block sm:w-[300px]`}
+              ref={searchRef}
+              className={`${toggleSearchbar
+                ? "absolute left-4 w-[calc(100%-32px)] top-[70px]"
+                : "hidden"
+                } sm:relative sm:top-auto sm:left-0 sm:block sm:w-[300px]`}
             >
               <div className="relative">
                 <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
@@ -91,6 +98,7 @@ const Header = () => {
                 />
                 {debouncedInputValue && searchedPosts.length > 0 && (
                   <SearchbarResult
+                    setInputValue={setInputValue}
                     searchedPosts={searchedPosts}
                     loading={searchLoading}
                   />
@@ -139,6 +147,8 @@ const Header = () => {
                 )}
               </div>
             </div>
+
+
             <div className="flex flex-row items-center justify-end gap-1">
               {!isLoggedIn ? (
                 <>
@@ -160,9 +170,8 @@ const Header = () => {
               ) : null}
               <button
                 type="button"
-                className={`sm:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 ${
-                  toggleSearchbar ? "bg-gray-100" : ""
-                } disabled:opacity-50 disabled:pointer-events-none`}
+                className={`sm:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 ${toggleSearchbar ? "bg-gray-100" : ""
+                  } disabled:opacity-50 disabled:pointer-events-none`}
                 onClick={() => setToggleSearchbar(!toggleSearchbar)}
               >
                 <svg
@@ -227,7 +236,7 @@ const Header = () => {
               </button>
 
               {isLoggedIn ? (
-                <div className="relative inline-flex">
+                <div className="relative inline-flex" ref={profileDropdownRef}>
                   <button
                     onClick={() =>
                       setIsOpenProfileDropdown(!isOpenProfileDropdown)
@@ -243,11 +252,10 @@ const Header = () => {
                   </button>
 
                   <div
-                    className={`absolute right-0 top-full transition-[opacity,margin] duration ${isOpenProfileDropdown} ${
-                      isOpenProfileDropdown
+                    className={`absolute right-0 top-full transition-[opacity,margin] duration ${isOpenProfileDropdown} ${isOpenProfileDropdown
                         ? "opacity-100 block"
                         : "opacity-0 hidden"
-                    } min-w-60 bg-white shadow-md rounded-lg mt-2`}
+                      } min-w-60 bg-white shadow-md rounded-lg mt-2`}
                   >
                     <div className="py-3 px-5 bg-gray-100 rounded-t-lg dark:bg-neutral-700">
                       <p className="text-sm text-gray-500 dark:text-neutral-500">

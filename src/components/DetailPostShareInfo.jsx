@@ -28,7 +28,7 @@ const DetailPostShareInfo = ({ blog }) => {
     }, [isOpenShareDropdown]);
     
     return (
-        <div className="sticky bottom-6 inset-x-0 text-center">
+        <div className="sticky bottom-0 sm:bottom-8 inset-x-0 text-center">
             <div className="inline-block bg-white sm:shadow-md rounded-xs sm:rounded-full py-3 px-4 w-full sm:w-auto">
                 <div className="grid grid-cols-3 sm:grid-cols-auto sm:flex items-center flex-col sm:flex-row gap-x-1.5 gap-y-1.5">
                     <div className="hs-tooltip inline-block w-full sm:w-auto">
@@ -155,7 +155,7 @@ const DetailPostShareInfo = ({ blog }) => {
                             onClick={() => toggleDropdown()}
                             id="hs-blog-article-share-dropdown"
                             type="button"
-                            className={`w-full py-2 sm:py-0 px-3 sm:px-0 focus:outline-none focus:bg-gray-50 font-medium rounded-lg bg-white text-gray-800 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none hs-tooltip-toggle flex items-center justify-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800`}
+                            className={`w-full py-2 sm:py-0 px-3 sm:px-0 focus:outline-none focus:bg-gray-50 font-medium rounded-lg border sm:border-0 border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none hs-tooltip-toggle flex items-center justify-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800`}
                             aria-haspopup="menu"
                             aria-expanded="false"
                             aria-label="Dropdown"

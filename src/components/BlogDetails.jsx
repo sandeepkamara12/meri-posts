@@ -5,6 +5,7 @@ import Post from "./Post";
 import UserComments from "./UserComments";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  clearPost,
   getRelatedPosts,
   getSinglePost,
 } from "../redux/slices/postSlice";
@@ -14,6 +15,7 @@ import DetailPostLoader from "./DetailPostLoader";
 import RelatedPosts from "./RelatedPosts";
 import DetailPostShareInfo from "./DetailPostShareInfo";
 import PostTags from "./PostTags";
+import Loader from "./Loader";
 
 const BlogDetails = () => {
   const { id } = useParams();
@@ -29,6 +31,9 @@ const BlogDetails = () => {
   useEffect(() => {
     if (id) {
       dispatch(getSinglePost(id));
+    }
+    return () => {
+      dispatch(clearPost());
     }
   }, [dispatch, id]);
 
@@ -58,14 +63,20 @@ const BlogDetails = () => {
     }
   }, [dispatch, post?.userId]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearPost());
+    };
+  }, [dispatch]);
+
+  console.log(post, 'post');
   return (
     <>
       <div className="max-w-4xl w-full mx-auto">
-        {loading ? (
-          <DetailPostLoader layout="" />
-        ) : (
+        {
+          Object.keys(post).length>0 ?
           <>
-            <div className="pt-6 lg:pt-10 pb-12 mx-auto">
+            <div className="pt-6 lg:pt-10 pb-8 mx-auto">
               <div className="">
                 <div className="flex justify-between items-center mb-6">
                   <div className="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
@@ -141,20 +152,23 @@ const BlogDetails = () => {
                     </figcaption>
                   </figure>
 
-                  <div>
-                    {blog?.categories &&
+                    {
+                      blog?.categories &&
                       blog?.categories?.length > 0 &&
-                      blog?.categories?.map((category, index) => (
-                        <Link
-                          key={index}
-                          className="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200"
-                          href="#"
-                        >
-                          {category}
-                        </Link>
-                      ))}
-                    </div>
-                    
+                      <div>
+                        {
+                          blog?.categories?.map((category, index) => (
+                            <Link
+                              key={index}
+                              className="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200"
+                              href="#"
+                            >
+                              {category}
+                            </Link>
+                          ))
+                        }
+                      </div>
+                    }
                 </div>
               </div>
             </div>
@@ -163,7 +177,12 @@ const BlogDetails = () => {
             {/* <UserComments postId={blog?.id} /> */}
             <RelatedPosts relatedPosts={relatedPosts} />
           </>
-        )}
+            :
+            <DetailPostLoader layout="" />
+        }
+        {
+          Object.keys(post).length > 0 && loading && <Loader layout="" />
+        }
       </div>
       {error && <p>Error: {error}</p>}
     </>
