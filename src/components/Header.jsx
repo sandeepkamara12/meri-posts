@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import SearchbarResult from "./SearchbarResult";
 import { useRef, useEffect, useState } from "react";
 import { allPosts } from "../data";
@@ -11,7 +11,6 @@ import useClickOutside from "../services/useClickOutside";
 // import { persistor } from "../redux/store";
 
 const Header = () => {
-  const [open, setOpen] = useState(false);
   const searchRef = useRef(null);
   const profileDropdownRef = useRef(null);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
@@ -21,6 +20,7 @@ const Header = () => {
 
   const [inputValue, setInputValue] = useState("");
   const debouncedInputValue = useDebounce(inputValue, 300);
+  const location = useLocation();
 
   const fetchSearchResults = async (query) => {
     await dispatch(searchPosts(query));
@@ -45,8 +45,14 @@ const Header = () => {
     navigate("/login");
   };
 
-  useClickOutside(searchRef, () => setInputValue(""));
-  useClickOutside(profileDropdownRef, () => setIsOpenProfileDropdown(false));
+  useEffect(() => {
+    return () => {
+      console.log('aaa');
+      setToggleSearchbar(false);
+    }
+  }, [location.pathname])
+  useClickOutside(searchRef, () => { setInputValue(""); setToggleSearchbar(false) });
+  useClickOutside(profileDropdownRef, () => { setIsOpenProfileDropdown(false); });
 
   return (
     <>
@@ -63,13 +69,13 @@ const Header = () => {
             <div className="lg:hidden ms-1"></div>
           </div>
 
-          <div className="w-full flex items-center justify-end ms-auto sm:justify-between gap-x-1 sm:gap-x-3">
+          <div className="w-full flex items-center justify-end ms-auto md:justify-between gap-x-1 sm:gap-x-3">
             <div
               ref={searchRef}
               className={`${toggleSearchbar
                 ? "absolute left-4 w-[calc(100%-32px)] top-[70px]"
                 : "hidden"
-                } sm:relative sm:top-auto sm:left-0 sm:block sm:w-[300px]`}
+                } md:relative md:top-auto md:left-0 md:block md:w-[300px]`}
             >
               <div className="relative">
                 <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
@@ -152,25 +158,39 @@ const Header = () => {
             <div className="flex flex-row items-center justify-end gap-1">
               {!isLoggedIn ? (
                 <>
-                  <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
+                  <div className="flex gap-1 md:gap-5 flex-row md:items-center md:justify-end md:ps-5">
                     <Link
                       to="/login"
                       className="font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
                     >
-                      Login
+                      <span className="hidden md:block">Login</span>
+                    <button type="button" className="md:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100  disabled:opacity-50 disabled:pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="24" height="24" strokeWidth={2} stroke="currentColor" className="shrink-0 size-4">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                        </svg>
+                        <span className="sr-only">Login</span>
+                      </button>
                     </Link>
                     <Link
                       to="/register"
                       className="font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
                     >
-                      Register
+                      <span className="hidden md:block">
+                        Register
+                      </span>
+                      <button type="button" className="md:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100  disabled:opacity-50 disabled:pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} width="24" height="24" stroke="currentColor" className="shrink-0 size-4">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                        </svg>
+                        <span className="sr-only">Register</span>
+                      </button>
                     </Link>
                   </div>
                 </>
               ) : null}
               <button
                 type="button"
-                className={`sm:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 ${toggleSearchbar ? "bg-gray-100" : ""
+                className={`md:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 ${toggleSearchbar ? "bg-gray-100" : ""
                   } disabled:opacity-50 disabled:pointer-events-none`}
                 onClick={() => setToggleSearchbar(!toggleSearchbar)}
               >
@@ -214,7 +234,7 @@ const Header = () => {
                 <span className="sr-only">Notifications</span>
               </button>
 
-              <button
+              {/* <button
                 type="button"
                 className="size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none "
               >
@@ -233,7 +253,7 @@ const Header = () => {
                   <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                 </svg>
                 <span className="sr-only">Activity</span>
-              </button>
+              </button> */}
 
               {isLoggedIn ? (
                 <div className="relative inline-flex" ref={profileDropdownRef}>
