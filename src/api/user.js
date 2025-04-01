@@ -2,7 +2,7 @@ import axios from "axios";
 const baseUrl = process.env.REACT_APP_URL;
 export const userById = async (userId) => {
     try {
-        let response = await axios.get(`${baseUrl}users/${userId}`);
+        let response = await axios.get(`${baseUrl}/users/${userId}`);
         return response?.data;
     } catch (error) {
         throw new Error(error?.response?.data?.message || "Error while getting user by id.");
@@ -26,7 +26,7 @@ export const allUsers = async () => {
 
 export const currentUser = async (token) => {
     try {
-        let response = await axios.get(`${baseUrl}auth/me`, {
+        let response = await axios.get(`${baseUrl}/auth/me`, {
             headers: {
                 Authorization: `Bearer ${token}`
             },

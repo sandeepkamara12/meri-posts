@@ -5,7 +5,7 @@ const baseUrl = process.env.REACT_APP_URL;
 export const loginUser = async (values) => {
     try {
         //we will use values parameter later when we would have our own api and username and password will be our own.
-        const response = await axios.post(`${baseUrl}auth/login`, {
+        const response = await axios.post(`${baseUrl}/auth/login`, {
             username: "emilys",
             password: "emilyspass",
             expiresInMins: 30
