@@ -2,7 +2,7 @@ import {
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
-import axios from "axios";
+import { loginUser } from "../../api/auth";
 
 const TOKEN_KEY = "user";
 const storedUser = localStorage.getItem(TOKEN_KEY);
@@ -10,28 +10,11 @@ const storedUser = localStorage.getItem(TOKEN_KEY);
 export const handleLogin = createAsyncThunk(
   "auth/login",
   async (values, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`https://dummyjson.com/auth/login`, {
-        username: "emilys",
-        password: "emilyspass",
-        expiresInMins: 30
-      });
-      let user = {
-        accessToken:response?.data?.accessToken,
-        email:response?.data?.email,
-        firstName:response?.data?.firstName,
-        gender:response?.data?.gender,
-        lastName:response?.data?.lastName,
-        username:response?.data?.username,
-        refreshToken:response?.data?.refreshToken,
-        image:response?.data?.image,
-        id:response?.data?.id,
-      }
-      localStorage.setItem(TOKEN_KEY, JSON.stringify(user));
-      return user;
-    } catch (error) {
-      return rejectWithValue(error?.response?.data?.message || "Login failed");
-    }
+   try {
+     return await loginUser(values);
+   } catch (error) {
+     return rejectWithValue(error.message);
+   }
   }
 );
 
@@ -45,12 +28,8 @@ const authSlice = createSlice({
   },
   reducers:{
     logout:(state)=>{
-      // console.log('you are logged out.')
       state.isLoggedIn = false;
       localStorage.removeItem(TOKEN_KEY);
-      // console.log(JSON.stringify(state), 'state is')
-      // state.user = {}
-      // return initialState
     }
   },
   extraReducers: (builder) => {

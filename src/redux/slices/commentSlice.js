@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { getPostComments } from "../../api/comment";
 
 export const getCommentByPostId = createAsyncThunk('comments/getCommentByPostId', async(postId, {rejectWithValue })=>{  
     try {
-        let response = await axios.get(`https://dummyjson.com/comments/post/${postId}`);
-        return response?.data?.comments;
+        return await getPostComments(postId);
     } catch (error) {
-        return rejectWithValue(error?.response?.data?.message || "Error while getting comments by post id.");
+        return rejectWithValue(error?.response);
     }
 });
 

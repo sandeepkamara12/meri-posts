@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { allUsers, currentUser, userById } from "../../api/user";
 
 export const getUserById = createAsyncThunk('users/getUserById', async(userId, {getState, rejectWithValue })=>{
     // We are getting user for posts, and we can not load all the users togather so we are checking either the user
@@ -9,40 +9,26 @@ export const getUserById = createAsyncThunk('users/getUserById', async(userId, {
         return users[userId];
     }  
     try {
-        let response = await axios.get(`https://dummyjson.com/users/${userId}`);
-        return response?.data;
+        return await userById(userId);
     } catch (error) {
-        return rejectWithValue(error?.response?.data?.message || "Error while getting user by id.");
+        return rejectWithValue(error);
     }
 });
 
 // In our case we do not need this api in blog listing because we are getting user info via user id in post loop
 export const getAllUsers = createAsyncThunk('users/getAllUsers', async(_,{ rejectWithValue })=>{
     try {
-        let response = await axios.get(`https://dummyjson.com/users/`);
-        const usersArray = response.data.users;
-        // Below convert a userArray into userObject to get single and all the users faster as compare to array
-        const usersObject = usersArray.reduce((acc, user)=>{
-            acc[user?.id] = user;
-            return acc;
-        }, {});
-        return usersObject; 
+        return await allUsers();
     } catch (error) {
-        return rejectWithValue(error?.response?.data?.message || "Error while getting users.");
+        return rejectWithValue(error);
     }
 })
 
 export const getCurrentUser = createAsyncThunk("users/getCurrentUser", async(token, {rejectWithValue}) => {
     try {
-        let response = await axios.get('https://dummyjson.com/auth/me', {
-            headers:{
-                Authorization:`Bearer ${token}`
-            },
-        }
-    )
-    return response.data; 
+        return await currentUser(token);
     } catch (error) {
-        return rejectWithValue(error?.response?.data?.message || "Error while getting user by id.");
+        return rejectWithValue(error);
     }
 })
 
