@@ -15,7 +15,7 @@ const SearchbarResult = ({ searchedPosts, setInputValue }) => {
             <div className="flex items-center w-full">
               <div className="flex items-center justify-center rounded-full bg-gray-200 size-8 overflow-hidden me-2.5">
                 <img
-                  className="shrink-0"
+                  className="shrink-0 object-cover object-center w-full h-full"
                   src={`post-${post?.id}.jpeg`}
                   alt="Ella Lauda"
                 />
