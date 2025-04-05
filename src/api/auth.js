@@ -1,5 +1,5 @@
 import axios from "axios";
-const TOKEN_KEY = "user";
+// const TOKEN_KEY = "user";
 const baseUrl = process.env.REACT_APP_URL;
 
 export const loginUser = async (values) => {
@@ -21,7 +21,7 @@ export const loginUser = async (values) => {
             image: response?.data?.image,
             id: response?.data?.id,
         }
-        localStorage.setItem(TOKEN_KEY, JSON.stringify(user));
+        // localStorage.setItem(TOKEN_KEY, JSON.stringify(user));
         return user;
     } catch (error) {
         throw new Error(error?.response?.data?.message || "Login failed");

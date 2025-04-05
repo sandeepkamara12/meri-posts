@@ -5,7 +5,7 @@ import {
 import { loginUser } from "../../api/auth";
 
 const TOKEN_KEY = "user";
-const storedUser = localStorage.getItem(TOKEN_KEY);
+// const storedUser = localStorage.getItem(TOKEN_KEY);
 
 export const handleLogin = createAsyncThunk(
   "auth/login",
@@ -21,15 +21,15 @@ export const handleLogin = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: JSON.parse(storedUser),
-    isLoggedIn:!!storedUser,
+    user: {},
+    isLoggedIn:false,
     error: null,
     loading: false
   },
   reducers:{
     logout:(state)=>{
       state.isLoggedIn = false;
-      localStorage.removeItem(TOKEN_KEY);
+      state.user ={}
     }
   },
   extraReducers: (builder) => {
