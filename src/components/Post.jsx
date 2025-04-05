@@ -87,7 +87,7 @@ const Post = ({
           >
             <Link to={`/${post?.id}`} className="h-full w-full inline-block">
               <img
-                className="size-full absolute top-0 start-0 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110 hover:scale-110"
+                className="size-full absolute top-0 start-0 object-cover transition-transform duration-300 ease-in-out lg:group-hover:scale-110 hover:scale-110"
                 src={`/post-${post?.id}.jpeg`}
                 alt="Blog"
               />
@@ -197,7 +197,7 @@ const Post = ({
               </div>
               <Link
                 to={`/${post?.id}`}
-                className="font-medium text-md text-gray-800 transition group-hover:text-blue-600 hover:text-blue-600"
+                className="font-medium text-md text-gray-800 transition lg:group-hover:text-blue-600 hover:text-blue-600"
               >
                 {post?.title}
               </Link>
