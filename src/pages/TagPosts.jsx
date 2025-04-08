@@ -47,22 +47,27 @@ const TagPosts = () => {
   return (
     <>
       <div className='w-full max-w-4xl mx-auto'>
-      <div className="capitalize cursor-pointer transition inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 mt-6">Posts by {tag }</div>
-        {loading && posts && posts?.length === 0 ? <PostLoader /> : 
-    
-      posts && posts?.length > 0 ? posts?.map(post => {
-        return (
-          <Post
-            key={post?.id}
-            layout=""
-            data={post}
-            // favoritePosts={favoritePosts}
-            // toggleFavorite={toggleFavorite}
-            />
-          )
-        })
-        :
-        <NoPostFound />
+        {
+          loading && posts && posts?.length === 0 ? <PostLoader /> :
+            <>
+              <div className="capitalize cursor-pointer transition inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 mt-6">Posts by {tag}</div>
+              {
+                posts && posts?.length > 0 ? posts?.map(post => {
+                  return (
+                    <Post
+                      key={post?.id}
+                      layout=""
+                      data={post}
+                    // favoritePosts={favoritePosts}
+                    // toggleFavorite={toggleFavorite}
+                    />
+                  )
+                })
+                  :
+                  <NoPostFound />
+              
+              }
+            </>
         }
         {
           posts?.length > 0 && loading &&
