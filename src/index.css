@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body.body-fixed {
+  height: 100vh;
+  overflow:hidden;
+}
 /* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

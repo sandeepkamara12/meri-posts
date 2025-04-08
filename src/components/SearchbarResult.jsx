@@ -1,5 +1,5 @@
 import React from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SearchbarResult = ({ searchedPosts, setInputValue }) => {
   const navigate = useNavigate()
@@ -8,17 +8,27 @@ const SearchbarResult = ({ searchedPosts, setInputValue }) => {
       <div className="max-h-72 rounded-b-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
         {searchedPosts?.map((post) => (
           <div
-            onClick={() => { setInputValue(""); navigate(`/${post?.id}`)}}
+            onClick={() => { setInputValue(""); navigate(`/${post?.id}`) }}
             key={post.id}
             className="flex items-center cursor-pointer py-2 px-4 w-full text-sm text-gray-800 hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-200"
           >
             <div className="flex items-center w-full">
               <div className="flex items-center justify-center rounded-full bg-gray-200 size-8 overflow-hidden me-2.5">
-                <img
-                  className="shrink-0 object-cover object-center w-full h-full"
-                  src={`post-${post?.id}.jpeg`}
-                  alt="Ella Lauda"
-                />
+                {
+                  post?.id > 153 ?
+
+                    <img
+                      className="shrink-0 object-cover object-center w-full h-full"
+                      src="/placeholder.jpg"
+                      alt="Ella Lauda"
+                    />
+                    :
+                    <img
+                      className="shrink-0 object-cover object-center w-full h-full"
+                      src={`post-${post?.id}.jpeg`}
+                      alt="Ella Lauda"
+                    />
+                }
               </div>
               <div className="flex flex-wrap items-start flex-col w-[calc(100%-42px)]">
                 <span

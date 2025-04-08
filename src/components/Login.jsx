@@ -14,7 +14,7 @@ const Login = () => {
     },
     validationSchema: Yup.object({
       username: Yup.string()
-        .required("username is required"),
+        .required("Username is required"),
       password: Yup.string().required("Password is required")
     }),
     onSubmit:async (values) => {

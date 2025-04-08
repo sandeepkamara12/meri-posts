@@ -31,8 +31,13 @@ const Header = () => {
   };
 
   useEffect(() => {
+    let body = document.querySelector("body");
     if (debouncedInputValue !== "") {
       fetchSearchResults(debouncedInputValue);
+      body.classList.add("body-fixed");
+    }
+    else {
+      body.classList.remove("body-fixed");
     }
   }, [debouncedInputValue]);
 
@@ -165,7 +170,11 @@ const Header = () => {
                 type="button"
                 className={`md:hidden size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 ${toggleSearchbar ? "bg-gray-100" : ""
                   } disabled:opacity-50 disabled:pointer-events-none`}
-                onClick={()=>setToggleSearchbar(!toggleSearchbar)}
+                onClick={() => {
+                  setToggleSearchbar(!toggleSearchbar);
+                  setInputValue("");
+                  document.querySelector("body").classList.remove("body-fixed");
+                }}
               >
                 <svg
                   className="shrink-0 size-4"
