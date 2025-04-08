@@ -30,14 +30,34 @@ const Header = () => {
     setInputValue(event.target.value);
   };
 
-  useEffect(() => {
+  const makeBodyFixedWithOverlay = (action) => {
     let body = document.querySelector("body");
-    if (debouncedInputValue !== "") {
-      fetchSearchResults(debouncedInputValue);
-      body.classList.add("body-fixed");
+    const overlayId = "search-overlay";
+    if (action === 'add') {
+      if (!document.getElementById(overlayId)) {
+        const overlay = document.createElement("div");
+        overlay.id = overlayId;
+        overlay.className = "bg-black opacity-75 w-full h-full fixed z-40 search-overlay";
+        overlay.textContent = "dxfhs"; // Optional content
+        body.prepend(overlay);
+      }
+      body.classList.add("body-fixed")
     }
     else {
-      body.classList.remove("body-fixed");
+      const overlay = document.getElementById(overlayId);
+      if (overlay) {
+        overlay.remove();
+      }
+      body.classList.remove("body-fixed")
+    }
+  }
+  useEffect(() => {
+    if (debouncedInputValue !== "") {
+      fetchSearchResults(debouncedInputValue);
+      makeBodyFixedWithOverlay('add');
+    }
+    else {
+      makeBodyFixedWithOverlay('remove');
     }
   }, [debouncedInputValue]);
 
@@ -173,7 +193,7 @@ const Header = () => {
                 onClick={() => {
                   setToggleSearchbar(!toggleSearchbar);
                   setInputValue("");
-                  document.querySelector("body").classList.remove("body-fixed");
+                  makeBodyFixedWithOverlay('remove');
                 }}
               >
                 <svg
