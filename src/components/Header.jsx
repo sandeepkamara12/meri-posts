@@ -37,7 +37,7 @@ const Header = () => {
       if (!document.getElementById(overlayId)) {
         const overlay = document.createElement("div");
         overlay.id = overlayId;
-        overlay.className = "bg-black opacity-75 w-full h-full fixed z-40 search-overlay";
+        overlay.className = "bg-black transition-[opacity] opacity-75 w-full h-full fixed z-40 search-overlay";
         overlay.textContent = "dxfhs"; // Optional content
         body.prepend(overlay);
       }
@@ -54,12 +54,17 @@ const Header = () => {
   useEffect(() => {
     if (debouncedInputValue !== "") {
       fetchSearchResults(debouncedInputValue);
+    }
+  }, [debouncedInputValue]);
+  
+  useEffect(() => {
+    if (toggleSearchbar) {
       makeBodyFixedWithOverlay('add');
     }
     else {
       makeBodyFixedWithOverlay('remove');
     }
-  }, [debouncedInputValue]);
+  }, [toggleSearchbar]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
