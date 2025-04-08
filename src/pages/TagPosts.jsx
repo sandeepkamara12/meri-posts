@@ -48,8 +48,8 @@ const TagPosts = () => {
     <>
       <div className='w-full max-w-4xl mx-auto'>
       <div className="capitalize cursor-pointer transition hover:text-white hover:bg-blue-600 inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-neutral-200 mt-6">Posts by {tag }</div>
-      {loading ? <PostLoader /> : null}
-    {
+        {loading && posts && posts?.length === 0 ? <PostLoader /> : 
+    
       posts && posts?.length > 0 ? posts?.map(post => {
         return (
           <Post
