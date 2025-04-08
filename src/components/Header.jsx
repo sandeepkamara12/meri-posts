@@ -75,7 +75,6 @@ const Header = () => {
 
             <div className="lg:hidden ms-1"></div>
           </div>
-          {toggleSearchbar + 'aaa'}
           <div className="w-full flex items-center justify-end ms-auto md:justify-between gap-x-1 sm:gap-x-3">
             <div
               ref={searchRef}
