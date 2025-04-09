@@ -1,85 +1,66 @@
-import React, { useState } from 'react';
-import { Gallery } from "react-grid-gallery";
-import Lightbox from "react-image-lightbox";
-import "react-image-lightbox/style.css";
+import React, { useEffect, useRef, useState } from 'react';
 
 const Gallerys = () => {
     const images = [
-        {
-            src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
-            original: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
-            width: 320,
-            height: 212,
-            // tags: [
-            //   { value: "Nature", title: "Nature" },
-            //   { value: "Flora", title: "Flora" },
-            // ],
-            caption: "After Rain (Jeshu John - designerspics.com)",
-        },
-        {
-            src: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg",
-            original: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg",
-            width: 320,
-            height: 212,
-            caption: "Boats (Jeshu John - designerspics.com)",
-        },
-        {
-            src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-            original: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-            width: 320,
-            height: 212,
-            caption: "Color Pencils (Jeshu John - designerspics.com)",
-        },
-        {
-            src: "https://c7.staticflickr.com/9/8546/28354329294_bb45ba31fa_b.jpg",
-            original: "https://c7.staticflickr.com/9/8546/28354329294_bb45ba31fa_b.jpg",
-            width: 320,
-            height: 212,
-            caption: "Red Apples with other Red Fruit (foodiesfeed.com)",
-        },
-        {
-            src: "https://c6.staticflickr.com/9/8890/28897154101_a8f55be225_b.jpg",
-            original: "https://c6.staticflickr.com/9/8890/28897154101_a8f55be225_b.jpg",
-            width: 320,
-            height: 212,
-            caption: "37H (gratispgraphy.com)",
-        },
-        {
-            src: "https://c5.staticflickr.com/9/8768/28941110956_b05ab588c1_b.jpg",
-            original: "https://c5.staticflickr.com/9/8768/28941110956_b05ab588c1_b.jpg",
-            width: 320,
-            height: 212,
-            // tags: [{ value: "Nature", title: "Nature" }],
-            caption: "8H (gratisography.com)",
-        },
-        {
-            src: "https://c3.staticflickr.com/9/8583/28354353794_9f2d08d8c0_b.jpg",
-            original: "https://c3.staticflickr.com/9/8583/28354353794_9f2d08d8c0_b.jpg",
-            width: 320,
-            height: 212,
-            caption: "286H (gratisography.com)",
-        },
-        {
-            src: "https://c7.staticflickr.com/9/8569/28941134686_d57273d933_b.jpg",
-            original: "https://c7.staticflickr.com/9/8569/28941134686_d57273d933_b.jpg",
-            width: 320,
-            height: 212,
-            // tags: [{ value: "People", title: "People" }],
-            caption: "315H (gratisography.com)",
-        }
+        { src: "https://c7.staticflickr.com/9/8569/28941134686_d57273d933_b.jpg", caption: "Sunset in the hills" },
+        { src: "https://c3.staticflickr.com/9/8583/28354353794_9f2d08d8c0_b.jpg", caption: "Sunset in the hills" },
+        { src: "https://c5.staticflickr.com/9/8768/28941110956_b05ab588c1_b.jpg", caption: "Sunset in the hills" },
+        { src: "https://c6.staticflickr.com/9/8890/28897154101_a8f55be225_b.jpg", caption: "Sunset in the hills" },
+        { src: "https://c7.staticflickr.com/9/8546/28354329294_bb45ba31fa_b.jpg", caption: "Sunset in the hills" },
+        { src: "https://c7.staticflickr.com/9/8546/28354329294_bb45ba31fa_b.jpg", caption: "Sunset in the hills" },
     ];
-    const [index, setIndex] = useState(-1);
+    const [lightboxIndex, setLightboxIndex] = useState(null);
+    const lightboxImgRef = useRef(null);
+    const dragOffset = useRef({ x: 0, y: 0 });
 
-    const currentImage = images[index];
-    const nextIndex = (index + 1) % images.length;
-    const nextImage = images[nextIndex] || currentImage;
-    const prevIndex = (index + images.length - 1) % images.length;
-    const prevImage = images[prevIndex] || currentImage;
+    const openLightbox = (index) => setLightboxIndex(index);
+    const closeLightbox = () => setLightboxIndex(null);
 
-    const handleClick = (index, item) => setIndex(index);
-    const handleClose = () => setIndex(-1);
-    const handleMovePrev = () => setIndex(prevIndex);
-    const handleMoveNext = () => setIndex(nextIndex);
+    const showPrev = () =>
+        setLightboxIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
+    const showNext = () =>
+        setLightboxIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
+
+    const handleKeyDown = (e) => {
+        if (lightboxIndex !== null) {
+            if (e.key === "ArrowLeft") showPrev();
+            if (e.key === "ArrowRight") showNext();
+            if (e.key === "Escape") closeLightbox();
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    });
+
+    // Zoom + Drag functionality
+    const handleMouseDown = (e) => {
+        const img = lightboxImgRef.current;
+        img.style.cursor = "grabbing";
+        img.style.transition = "none";
+
+        dragOffset.current = {
+            x: e.clientX - img.offsetLeft,
+            y: e.clientY - img.offsetTop,
+        };
+
+        const handleMouseMove = (e) => {
+            img.style.left = `${e.clientX - dragOffset.current.x}px`;
+            img.style.top = `${e.clientY - dragOffset.current.y}px`;
+        };
+
+        const handleMouseUp = () => {
+            img.style.cursor = "grab";
+            document.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseup", handleMouseUp);
+        };
+
+        document.addEventListener("mousemove", handleMouseMove);
+        document.addEventListener("mouseup", handleMouseUp);
+    };
+
+
     return (
         <>
             <blockquote className="text-center p-4 sm:px-7 my-10">
@@ -90,27 +71,95 @@ const Gallerys = () => {
                     Nicole Grazioso
                 </p>
             </blockquote>
-                <Gallery
-                    images={images}
-                    onClick={handleClick}
-                    enableImageSelection={false}
-                />
-                {!!currentImage && (
-                    /* @ts-ignore */
-                    <Lightbox
-                        mainSrc={currentImage.original}
-                        imageTitle={currentImage.caption}
-                        mainSrcThumbnail={currentImage.src}
-                        nextSrc={nextImage.original}
-                        nextSrcThumbnail={nextImage.src}
-                        prevSrc={prevImage.original}
-                        prevSrcThumbnail={prevImage.src}
-                        onCloseRequest={handleClose}
-                        onMovePrevRequest={handleMovePrev}
-                        onMoveNextRequest={handleMoveNext}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+
+                {images.map((img, index) => (
+                    <a className="group block relative overflow-hidden rounded-lg" href="#">
+                        <img
+                            src={img.src}
+                            alt={img.caption}
+                            key={index}
+                            loading="lazy"
+                            onClick={() => openLightbox(index)}
+                            className="lightbox-img w-full size-40 object-cover bg-gray-100 rounded-lg grid-img transition-transform group-hover:scale-110 object-cover cursor-pointer h-[180px]"
+                        />
+                        <div className="absolute bottom-2 end-2 opacity-0 group-hover:opacity-100 transition">
+                            <div className="flex items-center gap-x-1 py-1 px-2 bg-white border border-gray-200 text-gray-800 rounded-lg">
+                                <svg className="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+                                <span className="text-xs">View</span>
+                            </div>
+                        </div>
+                    </a>
+                ))}
+            </div>
+
+            {lightboxIndex !== null && (
+                <div className="lightbox" onClick={closeLightbox}>
+                    <span className="close-btn">&times;</span>
+
+                    <img
+                        src={images[lightboxIndex].src}
+                        alt="lightbox-img"
+                        ref={lightboxImgRef}
+                        onMouseDown={handleMouseDown}
+                        onClick={(e) => e.stopPropagation()}
+                        className="lightbox-img"
+                        style={{
+                            position: "relative",
+                            maxWidth: "90%",
+                            maxHeight: "80vh",
+                            cursor: "grab",
+                        }}
                     />
-                )}
-          
+
+                    <p className="caption">{images[lightboxIndex].caption}</p>
+
+                    <button
+                        className="nav-btn left"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            showPrev();
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-10">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <button
+                        className="nav-btn right"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            showNext();
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-10">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+                </div>
+            )}
+            {/* {lightboxIndex !== null && (
+                <div className="lightbox" onClick={closeLightbox}>
+                    <span className="close-btn">&times;</span>
+                    <img
+                        src={images[lightboxIndex]}
+                        alt="lightbox-img"
+                        className="lightbox-img"
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                    <p className="caption">{images[lightboxIndex].caption}</p>
+                    <button className="nav-btn left" onClick={(e) => { e.stopPropagation(); showPrev(); }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-10">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <button className="nav-btn right" onClick={(e) => { e.stopPropagation(); showNext(); }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-10">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+                </div>
+            )} */}
         </>
     );
 }
