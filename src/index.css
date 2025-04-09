@@ -6,6 +6,20 @@ body.body-fixed {
   height: 100vh;
   overflow:hidden;
 }
+.ReactGridGallery > div {
+@apply !grid grid-cols-4 gap-2;
+}
+.ReactGridGallery_tile {
+  overflow: hidden;
+  border-radius: 10px;
+  margin:0!important;
+}
+.ReactGridGallery_tile img {
+@apply transition-all;
+}
+.ReactGridGallery_tile:hover img {
+  @apply scale-110;
+}
 /* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
