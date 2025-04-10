@@ -9,12 +9,17 @@ body {
 }
 @media screen and (max-width: 991px) {
   .gallery-wrapper {
+    columns:140px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .gallery-wrapper {
     columns:130px;
   }
 }
 @media screen and (max-width: 640px) {
   .gallery-wrapper {
-    columns:130px;
+    columns:120px;
   }
 }
 /* .posts:not(:last-child) {

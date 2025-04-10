@@ -12,6 +12,8 @@ import PublicRoute from "./components/PublicRoute";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserProfile from "./pages/UserProfile";
 import TagPosts from "./pages/TagPosts";
+import NotFound from "./components/NotFound";
+import Cookiee from "./components/Cookiee";
 
 function App() {
   return (
@@ -27,10 +29,6 @@ function App() {
             <Route
               path="/re"
               element={<Requirements />}
-            />
-            <Route
-              path="/:id"
-              element={<BlogDetails />}
             />
             <Route
               path="/login"
@@ -52,10 +50,19 @@ function App() {
               path="/tag-posts"
               element={<TagPosts />}
             />
+            <Route
+              path="/post/:id"
+              element={<BlogDetails />}
+            />
+            <Route
+              path="*"
+              element={<NotFound />}
+            />
           </Routes>
 
         </div>
         {/* <Footer />   */}
+        <Cookiee />
       </div>
     </BrowserRouter>
   );
