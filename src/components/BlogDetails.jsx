@@ -162,7 +162,7 @@ const BlogDetails = () => {
                     <p className=" mt-1 text-md text-gray">
                       {blog?.body}
                     </p>
-                    <ul className="list-disc list-outside space-y-5 ps-5 text-lg text-gray-800 dark:text-neutral-200">
+                    <ul className="list-disc list-outside space-y-5 ps-5 text-md text-gray-800 dark:text-neutral-200">
                       <li className="ps-2">Preline allows us to collaborate in real time and is a really great way for leadership on the team to stay up-to-date with what everybody is working on," <a className="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-blue-500" href="#" target="_parent">said</a> Stewart Scott-Curran, Intercom's Director of Brand Design.</li>
                       <li className="ps-2">Preline opened a new way of sharing. It's a persistent way for everyone to see and absorb each other's work," said David Scott, Creative Director at <a className="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-blue-500" href="#" target="_parent">Eventbrite</a>.</li>
                     </ul>
