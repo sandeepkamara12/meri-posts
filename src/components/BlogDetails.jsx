@@ -15,7 +15,7 @@ import DetailPostLoader from "./DetailPostLoader";
 import RelatedPosts from "./RelatedPosts";
 import DetailPostShareInfo from "./DetailPostShareInfo";
 import PostTags from "./PostTags";
-import Loader from "./Loader";
+import Loader from "./common/Loader";
 import Gallery from "./Gallery";
 
 const BlogDetails = () => {

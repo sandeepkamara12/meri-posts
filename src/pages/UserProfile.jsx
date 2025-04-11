@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "../redux/slices/userSlice";
 import { useFormik } from "formik";
-import ImageUpload from "../components/ImageUpload";
+import ImageUpload from "../components/common/ImageUpload";
 
 const UserProfile = () => {
   const dispatch = useDispatch();

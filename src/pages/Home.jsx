@@ -2,22 +2,35 @@ import React, { useEffect, useRef, useState } from "react";
 import Post from "../components/Post";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../redux/slices/postSlice";
-import Loader from "../components/Loader";
+import Loader from "../components/common/Loader";
 import PostLoader from "../components/PostLoader";
 import { useLocation } from "react-router-dom";
+import { getUserById } from "../redux/slices/userSlice";
+import { updateUserRole } from "../redux/slices/authSlice";
 
 const Home = () => {
+  const {user:{id}} = useSelector(state=>state.auth);
   const [favoritePosts, setFavoritePosts] = useState([]);
+  const [role, setRole] = useState("");
   const { posts, loading, error, page, hasMore } = useSelector(
     (state) => state.posts
   );
   const location = useLocation();
-
+  
   const dispatch = useDispatch();
   const observer = useRef(null);
   const loaderRef = useRef(null);
 
   let layout = "";
+  
+useEffect(()=>{
+  dispatch(getUserById(id)).unwrap().then(res=>setRole(res?.role)).catch(error=>console.log(error));
+}, [id]);
+
+useEffect(()=>{
+  role && dispatch(updateUserRole(role))  
+},[role])
+
   useEffect(() => {
     const savedFavorites =
       JSON.parse(localStorage.getItem("favoritePosts")) || [];

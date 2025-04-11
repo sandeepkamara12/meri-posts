@@ -5,7 +5,7 @@ import {  getPostsByTagName, resetTagPosts } from '../redux/slices/postSlice';
 import Post from '../components/Post';
 import PostLoader from '../components/PostLoader';
 import NoPostFound from '../components/NoPostFound';
-import Loader from '../components/Loader';
+import Loader from '../components/common/Loader';
 
 const TagPosts = () => {
   const dispatch = useDispatch();

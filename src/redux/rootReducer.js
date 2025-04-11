@@ -3,12 +3,12 @@ import authReducer from './slices/authSlice';
 import postReducer from './slices/postSlice';
 import userReducer from './slices/userSlice';
 import commentReducer from './slices/commentSlice';
-import sessionStorage from "redux-persist/es/storage/session";
+import storage from "redux-persist/es/storage";
 import persistReducer from "redux-persist/es/persistReducer";
 
 const authConfig = {
     key: 'auth',
-    storage: sessionStorage,
+    storage,
     whitelist: ['user', 'isLoggedIn']
 }
 

@@ -30,6 +30,9 @@ const authSlice = createSlice({
     logout:(state)=>{
       state.isLoggedIn = false;
       state.user ={}
+    },
+    updateUserRole:(state, action)=>{
+      state.user.role = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -49,5 +52,5 @@ const authSlice = createSlice({
       });
   }
 });
-export const { logout } = authSlice.actions;
+export const { logout, updateUserRole } = authSlice.actions;
 export default authSlice.reducer;

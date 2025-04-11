@@ -1,13 +1,13 @@
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import SearchbarResult from "./SearchbarResult";
+import SearchbarResult from "../SearchbarResult";
 import { useRef, useEffect, useState } from "react";
-import { allPosts } from "../data";
-import NoPostFound from "./NoPostFound";
+// import { allPosts } from "../data";
+import NoPostFound from "../NoPostFound";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/slices/authSlice";
-import { searchPosts } from "../redux/slices/postSlice";
-import useDebounce from "../hooks/useDebounce";
-import useClickOutside from "../services/useClickOutside";
+import { logout } from "../../redux/slices/authSlice";
+import { searchPosts } from "../../redux/slices/postSlice";
+import useDebounce from "../../hooks/useDebounce";
+import useClickOutside from "../../services/useClickOutside";
 // import { persistor } from "../redux/store";
 
 const Header = () => {
