@@ -1,7 +1,7 @@
 import axios from "axios";
 // const access_token = localStorage.getItem('token');
 const axiosInstance = axios.create({
-  baseUrl:process.env.REACT_APP_URL,
+  baseURL:process.env.REACT_APP_URL,
   // timeout : 1000,
   // headers: {
   //   Authorization: `Bearer ${access_token}`,

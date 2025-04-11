@@ -32,10 +32,9 @@ const TagPosts = () => {
       await dispatch(resetTagPosts());
       const param = {tag, page:0};
       await dispatch(getPostsByTagName({param}));
-
     }
     if(tag) {
-     getTagPosts() ;
+     getTagPosts();
     }
   }, [tag]);
 
