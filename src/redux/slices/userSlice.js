@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { allUsers, currentUser, userById } from "../../api/user";
+import { allUsers, currentUser, getAllPosts, userById } from "../../api/user";
 
 export const getUserById = createAsyncThunk('users/getUserById', async(userId, {getState, rejectWithValue })=>{
     // We are getting user for posts, and we can not load all the users togather so we are checking either the user
@@ -32,53 +32,77 @@ export const getCurrentUser = createAsyncThunk("users/getCurrentUser", async(tok
     }
 })
 
+export const getUserAllPost = createAsyncThunk("users/allposts", async({token, userId},{rejectWithValue})=>{
+    try {
+        return await getAllPosts(token, userId);
+    } catch (error) {
+        return rejectWithValue(error);
+    }
+});
+
 const userSlice = createSlice({
     name:"users",
     initialState:{
         users: {},
-        loading:false,
-        error:null,
+        loading:{},
+        error:{},
+        userAllPosts:[],
+        page: 0,
+        hasMore: true
     },
     reducers:{},
     extraReducers:(builder)=>{
         builder.addCase(getUserById.pending, state=>{
-            state.loading = true;
-            state.error = null;
+            state.loading.specificUser = true;
+            state.error.specificUser = null;
         })
         .addCase(getUserById.fulfilled, (state, action)=>{
-            state.loading = false;
+            state.loading.specificUser = false;
             //Storing each user in redux with its id in an object, check redux state
-            state.users[action.payload.id] =  action.payload;
+            state.users[action.payload.id] = action.payload;
         })
         .addCase(getUserById.rejected, (state, action)=>{
-            state.loading = false;
-            state.error = action.payload;
+            state.loading.specificUser = false;
+            state.error.specificUser = action.payload;
         });
 
         builder.addCase(getAllUsers.pending, state=>{
-            state.loading = true;
-            state.error = null;
+            state.loading.allUser = true;
+            state.error.allUser = null;
         })
         .addCase(getAllUsers.fulfilled, (state, action)=>{
-            state.loading = false;
-            state.users =  action.payload; //Store all user
+            state.loading.allUser = false;
+            state.users = action.payload; //Store all user
         })
         .addCase(getAllUsers.rejected, (state, action)=>{
-            state.loading = false;
-            state.error = action.payload;
+            state.loading.allUser = false;
+            state.error.allUser = action.payload;
         });
 
         builder.addCase(getCurrentUser.pending, state=>{
-            state.loading = true;
-            state.error = null;
+            state.loading.currentUser = true;
+            state.error.currentUser = null;
         })
         .addCase(getCurrentUser.fulfilled, (state, action)=>{
-            state.loading = false;
-            state.users =  action.payload; //Store current user
+            state.loading.currentUser = false;
+            state.users = action.payload; //Store current user
         })
         .addCase(getCurrentUser.rejected, (state, action)=>{
-            state.loading = false;
-            state.error = action.payload;
+            state.loading.currentUser = false;
+            state.error.currentUser = action.payload;
+        });
+
+        builder.addCase(getUserAllPost.pending, state=>{
+            state.loading.userPost = true;
+            state.error.userPost = null;
+        })
+        .addCase(getUserAllPost.fulfilled, (state, action)=>{
+            state.loading.userPost = false;
+            state.userAllPosts = action.payload?.posts;
+        })
+        .addCase(getUserAllPost.rejected, (state, action)=>{
+            state.loading.userPost = false;
+            state.error.userPost = action.payload;
         });
     }
 })

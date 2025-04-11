@@ -16,6 +16,7 @@ import NotFound from "./components/common/NotFound";
 import Cookiee from "./components/common/Cookiee";
 import UserLayout from "./layouts/user/UserLayout";
 import AdminLayout from "./layouts/admin/AdminLayout";
+import UserPosts from "./components/user/UserPosts";
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
             <Route element={<ProtectedRoute allowRoles={['user']} />}>
               <Route path="/" element={<UserLayout />}>
                 <Route path="/profile" element={<UserProfile />} />
+                <Route path="/user-posts" element={<UserPosts />} />
               </Route>
             </Route>
 

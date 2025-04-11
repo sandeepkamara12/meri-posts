@@ -37,3 +37,15 @@ export const currentUser = async (token) => {
         throw new Error(error?.response?.data?.message || "Error while getting user by id.");
     }
 }
+export const getAllPosts =  async(token, userId) => {
+    try {
+        let response = await axiosInstance.get(`${baseUrl}/users/${userId}/posts?limit=2`, {
+            headers:{
+                Authorization:`Bearer :${token}`
+            }
+        });
+        return response?.data;
+    } catch (error) {
+        throw new Error(error?.response?.data?.message || "Error while getting all the posts by user id.");
+    }
+}

@@ -2,10 +2,10 @@ import axios from "axios";
 import axiosInstance from "../axiosInstance";
 
 const baseUrl = process.env.REACT_APP_URL;
-export const getAllPostsData = async (page) => {
+export const getAllPostsData = async (param) => {
     try {
         let response = await axios.get(
-            `${baseUrl}/posts?delay=1000&limit=10&skip=${page * 10}`
+            `${baseUrl}/posts?delay=1000&limit=10&skip=${param?.page * 10}`
         );
         return response?.data;
     } catch (error) {
