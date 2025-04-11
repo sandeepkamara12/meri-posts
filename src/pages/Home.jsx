@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import Post from "../components/Post";
+import Post from "../components/post/Post";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../redux/slices/postSlice";
 import Loader from "../components/common/Loader";
-import PostLoader from "../components/PostLoader";
+import PostLoader from "../components/post/PostLoader";
 import { useLocation } from "react-router-dom";
 import { getUserById } from "../redux/slices/userSlice";
 import { updateUserRole } from "../redux/slices/authSlice";

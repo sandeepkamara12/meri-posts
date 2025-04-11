@@ -1,8 +1,8 @@
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import SearchbarResult from "../SearchbarResult";
+import SearchbarResult from "../post/SearchbarResult";
 import { useRef, useEffect, useState } from "react";
 // import { allPosts } from "../data";
-import NoPostFound from "../NoPostFound";
+import NoPostFound from "../post/NoPostFound";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/slices/authSlice";
 import { searchPosts } from "../../redux/slices/postSlice";

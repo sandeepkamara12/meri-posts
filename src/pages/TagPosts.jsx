@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import {  getPostsByTagName, resetTagPosts } from '../redux/slices/postSlice';
-import Post from '../components/Post';
-import PostLoader from '../components/PostLoader';
-import NoPostFound from '../components/NoPostFound';
+import Post from '../components/post/Post';
+import PostLoader from '../components/post/PostLoader';
+import NoPostFound from '../components/post/NoPostFound';
 import Loader from '../components/common/Loader';
 
 const TagPosts = () => {

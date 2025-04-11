@@ -1,21 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import moment from "moment";
-import Post from "./Post";
+// import Post from "./Post";
 import UserComments from "./UserComments";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearPost,
   getRelatedPosts,
   getSinglePost
-} from "../redux/slices/postSlice";
-import { getUserById } from "../redux/slices/userSlice";
-import SharePostSocial from "./SharePostSocial";
+} from "../../../redux/slices/postSlice";
+import { getUserById } from "../../../redux/slices/userSlice";
+// import SharePostSocial from "./SharePostSocial";
 import DetailPostLoader from "./DetailPostLoader";
-import RelatedPosts from "./RelatedPosts";
+import RelatedPosts from "../details/RelatedPosts";
 import DetailPostShareInfo from "./DetailPostShareInfo";
-import PostTags from "./PostTags";
-import Loader from "./common/Loader";
+import PostTags from "../PostTags";
+import Loader from "../../common/Loader";
 import Gallery from "./Gallery";
 
 const BlogDetails = () => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import SharePostSocial from './SharePostSocial';
+import SharePostSocial from '../SharePostSocial';
 import { Tooltip } from 'react-tooltip'
 
 const DetailPostShareInfo = ({ blog }) => {

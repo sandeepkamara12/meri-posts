@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import SharePostSocial from "./SharePostSocial";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserById } from "../redux/slices/userSlice";
+import { getUserById } from "../../redux/slices/userSlice";
 
 const Post = ({
   layout = "",
