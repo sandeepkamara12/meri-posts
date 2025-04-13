@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import React from "react";
 import * as Yup from "yup";
-import { handleLogin } from "../redux/slices/authSlice";
+import { handleLogin } from "../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 

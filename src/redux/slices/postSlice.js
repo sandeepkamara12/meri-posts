@@ -3,9 +3,9 @@ import { getAllPostsData, getPostDetails, postByTagName, postByUserId, searchedP
 
 export const getAllPosts = createAsyncThunk(
   "posts/getAllPost",
-  async (page, { rejectWithValue }) => {
+  async ({param}, { rejectWithValue }) => {
     try {
-      return await getAllPostsData(page);
+      return await getAllPostsData(param);
     } catch (error) {
       return rejectWithValue(error?.message);
     }
@@ -23,7 +23,7 @@ export const getSinglePost = createAsyncThunk("posts/getSinglePost", async (post
 })
 
 
-export const getPostsByTagName = createAsyncThunk("posts/getPostsByTagName", async ({ tag, page }, { rejectWithValue }) => {
+export const getPostsByTagName = createAsyncThunk("posts/getPostsByTagName", async ({ param:{tag, page} }, { rejectWithValue }) => {
   try {
     return await postByTagName(tag, page);
   } catch (error) {
@@ -51,7 +51,6 @@ export const getRelatedPosts = createAsyncThunk("posts/relatedPosts", async ({ u
       }
       //Get posts that match the tags and remove the current post too.
       let relatedPosts = postsByUser?.filter(post => post?.tags.some(tag => tags.includes(tag))).filter(post => post?.id !== currentPostId);
-      console.log(relatedPosts, 'relatedPosts')
       return relatedPosts;
 
     } catch (error) {
@@ -79,31 +78,18 @@ const postSlice = createSlice({
     totalPages: 0,
     relatedPosts: [],
     searchedPosts: [],
-    // tagPosts:[],
-    tagPosts: {
-      loading: false,
-      error: null,
-      posts: [],
-      totalPages: 0,
-      page: 0,
-      hasMore: true
-    },
-    loading: false,
-    searchLoading: false,
-    error: null,
+    tagPosts: [],
+    loading: {},
+    error: {},
     page: 0,
     hasMore: true
   },
   reducers: {
     resetTagPosts: (state) => {
-      state.tagPosts = {
-        loading: false,
-        error: null,
-        posts: [],
-        totalPages: 0,
-        page: 0,
-        hasMore: true,
-      };
+        state.tagPosts = [];
+        state.totalPages = 0;
+        state.page = 0;
+        state.hasMore = true;
     },
     clearPost: (state) => {
       state.post = {};
@@ -113,12 +99,11 @@ const postSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAllPosts.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loading.getAllPosts = true;
+        state.error.getAllPosts = null;
       })
       .addCase(getAllPosts.fulfilled, (state, action) => {
-        console.log(state.page, 'page count is');
-        state.loading = false;
+        state.loading.getAllPosts = false;
         state.posts = [...state.posts, ...action.payload.posts];
         state.totalPosts = action.payload.total;
         state.totalPages = Math.ceil(action.payload.total / 10)
@@ -128,59 +113,60 @@ const postSlice = createSlice({
         state.hasMore = action.payload.posts.length > 0;
       })
       .addCase(getAllPosts.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.loading.getAllPosts = false;
+        state.error.getAllPosts = action.payload;
       })
       .addCase(getRelatedPosts.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loading.getRelatedPosts = true;
+        state.error.getRelatedPosts = null;
       })
       .addCase(getRelatedPosts.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loading.getRelatedPosts = false;
         state.relatedPosts = action.payload;
       })
       .addCase(getRelatedPosts.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.loading.getRelatedPosts = false;
+        state.error.getRelatedPosts = action.payload;
       })
       .addCase(searchPosts.pending, (state) => {
-        state.searchLoading = true;
-        state.error = null;
+        state.loading.searchPosts = true;
+        state.error.searchPosts = null;
       })
       .addCase(searchPosts.fulfilled, (state, action) => {
-        state.searchLoading = false;
+        state.loading.searchPosts = false;
         state.searchedPosts = action.payload;
       })
       .addCase(searchPosts.rejected, (state, action) => {
-        state.searchLoading = false;
-        state.error = action.payload;
+        state.loading.searchPosts = false;
+        state.error.searchPosts = action.payload;
       })
       .addCase(getSinglePost.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loading.getSinglePost = true;
+        state.error.getSinglePost = null;
       })
       .addCase(getSinglePost.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loading.getSinglePost = false;
         state.post = action.payload;
       })
       .addCase(getSinglePost.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.loading.getSinglePost = false;
+        state.error.getSinglePost = action.payload;
       })
       .addCase(getPostsByTagName.pending, (state) => {
-        state.tagPosts.loading = true;
-        state.tagPosts.error = null;
+        state.loading.getPostsByTagName = true;
+        state.error.getPostsByTagName = null;
       })
       .addCase(getPostsByTagName.fulfilled, (state, action) => {
-        state.tagPosts.loading = false;
-        state.tagPosts.totalPages = Math.ceil(action.payload.total / 10)
-        state.tagPosts.posts = [...state.tagPosts.posts, ...action.payload.posts];
-        state.tagPosts.page += 1;
-        state.tagPosts.hasMore = action.payload.posts.length > 0;
+        state.loading.getPostsByTagName = false;
+        state.error.getPostsByTagName = null;
+        state.totalPages = Math.ceil(action.payload.total / 10)
+        state.tagPosts = [...state.tagPosts, ...action.payload.posts];
+        state.page += 1;
+        state.hasMore = action.payload.posts.length > 0;
       })
       .addCase(getPostsByTagName.rejected, (state, action) => {
-        state.tagPosts.loading = false;
-        state.tagPosts.error = action.payload;
+        state.loading.getPostsByTagName=false;
+        state.error.getPostsByTagName = action.payload;
       });
   }
 });

@@ -6,8 +6,8 @@ export const loginUser = async (values) => {
     try {
         //we will use values parameter later when we would have our own api and username and password will be our own.
         const response = await axiosInstance.post(`${baseUrl}/auth/login`, {
-            username: "emilys",
-            password: "emilyspass",
+            username:values?.username,
+            password: values?.password,
             expiresInMins: 30
         });
         let user = {

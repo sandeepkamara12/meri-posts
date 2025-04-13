@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { setCookie, getCookie } from "../utils/cookieUtils";
+import { setCookie, getCookie } from "../../utils/cookieUtils";
 
 const Cookiee = () => {
   const [visible, setVisible] = useState(false);

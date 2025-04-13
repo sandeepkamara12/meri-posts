@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import SharePostSocial from "./SharePostSocial";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserById } from "../redux/slices/userSlice";
+import { getUserById } from "../../redux/slices/userSlice";
 
 const Post = ({
   layout = "",
@@ -85,7 +85,7 @@ const Post = ({
               layout === "vertical" ? "w-full" : "sm:w-[200px]"
             } md:h-[200px]`}
           >
-            <Link to={`/${post?.id}`} className="h-full w-full inline-block">
+            <Link to={`/post/${post?.id}`} className="h-full w-full inline-block">
               <img
                 className="size-full absolute top-0 start-0 object-cover transition-transform duration-300 ease-in-out lg:group-hover:scale-110 hover:scale-110"
                 src={`/post-${post?.id}.jpeg`}
@@ -196,7 +196,7 @@ const Post = ({
                 </ul>
               </div>
               <Link
-                to={`/${post?.id}`}
+                to={`/post/${post?.id}`}
                 className="font-medium text-md text-gray-800 transition lg:group-hover:text-blue-600 hover:text-blue-600"
               >
                 {post?.title}

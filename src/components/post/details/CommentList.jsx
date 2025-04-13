@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCommentByPostId } from "../redux/slices/commentSlice";
+import { getCommentByPostId } from "../../../redux/slices/commentSlice";
 
 const CommentList = ({ postId }) => {
   const dispatch = useDispatch();

@@ -1,28 +1,30 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import moment from "moment";
-import Post from "./Post";
+// import Post from "./Post";
 import UserComments from "./UserComments";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearPost,
   getRelatedPosts,
   getSinglePost
-} from "../redux/slices/postSlice";
-import { getUserById } from "../redux/slices/userSlice";
-import SharePostSocial from "./SharePostSocial";
+} from "../../../redux/slices/postSlice";
+import { getUserById } from "../../../redux/slices/userSlice";
+// import SharePostSocial from "./SharePostSocial";
 import DetailPostLoader from "./DetailPostLoader";
-import RelatedPosts from "./RelatedPosts";
+import RelatedPosts from "../details/RelatedPosts";
 import DetailPostShareInfo from "./DetailPostShareInfo";
-import PostTags from "./PostTags";
-import Loader from "./Loader";
+import PostTags from "../PostTags";
+import Loader from "../../common/Loader";
 import Gallery from "./Gallery";
 
 const BlogDetails = () => {
-  const { id } = useParams();
   const dispatch = useDispatch();
+  const { id } = useParams();
+  
   const [blog, setBlog] = useState(null);
   const [user, setUser] = useState(null);
+
   const { post, relatedPosts, loading, error } = useSelector(
     (state) => state.posts
   );
@@ -36,10 +38,11 @@ const BlogDetails = () => {
     return () => {
       dispatch(clearPost());
     };
-  }, [dispatch, id]);
+  }, [id]);
 
   //Get related posts of blog details
   useEffect(() => {
+    post?.userId && post?.tags && post?.id &&
     dispatch(
       getRelatedPosts({
         userId: post?.userId,
@@ -47,7 +50,7 @@ const BlogDetails = () => {
         currentPostId: post?.id
       })
     );
-  }, [dispatch, post?.userId, post?.tags, post?.id]);
+  }, [post?.userId]);
 
   //Set current user from user list object
   useEffect(() => {
@@ -62,7 +65,7 @@ const BlogDetails = () => {
     if (post?.userId) {
       dispatch(getUserById(post?.userId));
     }
-  }, [dispatch, post?.userId]);
+  }, [post?.userId]);
 
   useEffect(() => {
     return () => {
@@ -72,8 +75,11 @@ const BlogDetails = () => {
 
   return (
     <>
+    {
+      console.log(user, 'post')
+    }
       <div className="max-w-4xl w-full mx-auto">
-        {Object.keys(post).length > 0 ? (
+        {Object.keys(post)?.length > 0 ? (
           <>
             <div className="pt-6 lg:pt-10 pb-8 mx-auto">
               <div className="">
@@ -197,15 +203,15 @@ const BlogDetails = () => {
               </div>
             </div>
             <DetailPostShareInfo blog={blog} />
-            {/* <UserComments postId={blog?.id} /> */}
+            <UserComments postId={blog?.id} />
             <RelatedPosts relatedPosts={relatedPosts} />
           </>
         ) : (
           <DetailPostLoader layout="" />
         )}
-        {Object.keys(post).length > 0 && loading && <Loader layout="" />}
+        {Object.keys(post)?.length > 0 && loading.getSinglePost && <Loader layout="" />}
       </div>
-      {error && <p>Error: {error}</p>}
+      {error.getSinglePost && <p>Error: {error}</p>}
     </>
   );
 };
