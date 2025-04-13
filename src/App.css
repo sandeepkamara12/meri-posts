@@ -4,7 +4,24 @@ body {
   font-optical-sizing: auto;
   font-style: normal;
 }
-
+.gallery-wrapper {
+  columns:150px;
+}
+@media screen and (max-width: 991px) {
+  .gallery-wrapper {
+    columns:140px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .gallery-wrapper {
+    columns:130px;
+  }
+}
+@media screen and (max-width: 640px) {
+  .gallery-wrapper {
+    columns:120px;
+  }
+}
 /* .posts:not(:last-child) {
   margin-bottom: 16px;
 } */
