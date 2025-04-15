@@ -18,6 +18,8 @@ import UserLayout from "./layouts/user/UserLayout";
 import AdminLayout from "./layouts/admin/AdminLayout";
 import UserPosts from "./components/user/UserPosts";
 import Dashboard from "./pages/admin/Dashboard";
+import Posts from "./pages/admin/Posts";
+import Users from "./pages/admin/Users";
 
 function App() {
   return (
@@ -71,7 +73,9 @@ function App() {
           {/* Admin Routes */}
           <Route element={<ProtectedRoute allowRoles={['admin']} />}>
             <Route path="/admin" element={<AdminLayout />}>
-              <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route index element={<Dashboard />} />
+              <Route path="posts" element={<Posts />} />
+              <Route path="users" element={<Users />} />
             </Route>
           </Route>
 
