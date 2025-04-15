@@ -17,73 +17,74 @@ import Cookiee from "./components/common/Cookiee";
 import UserLayout from "./layouts/user/UserLayout";
 import AdminLayout from "./layouts/admin/AdminLayout";
 import UserPosts from "./components/user/UserPosts";
+import Dashboard from "./pages/admin/Dashboard";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Header />
-        <div className="flex flex-wrap max-w-6xl mx-auto px-4 sm:px-6 ">
-          <Routes>
+        <Routes>
 
-            {/* Public Routes */}
-            <Route
-              path="/"
-              element={<Home />}
-            />
-            <Route
-              path="/re"
-              element={<Requirements />}
-            />
-            <Route
-              path="/login"
-              element={<PublicRoute><Login /></PublicRoute>}
-            />
-            <Route
-              path="/register"
-              element={<PublicRoute><Register /></PublicRoute>}
-            />
-            <Route
-              path="/forgot-password"
-              element={<PublicRoute><ForgotPassword /></PublicRoute>}
-            />
-            <Route
-              path="/tag-posts"
-              element={<TagPosts />}
-            />
-             <Route
-              path="/post/:id"
-              element={<BlogDetails />}
-            />
+          {/* Public Routes */}
+          <Route element={<PublicRoute />}>
+            <Route path="/" element={<UserLayout />}>
+              <Route
+                index
+                element={<Home />}
+              />
+              <Route
+                path="/post/:id"
+                element={<BlogDetails />}
+              />
 
-
-            {/* User Routes */}
-            <Route element={<ProtectedRoute allowRoles={['user']} />}>
-              <Route path="/" element={<UserLayout />}>
-                <Route path="/profile" element={<UserProfile />} />
-                <Route path="/user-posts" element={<UserPosts />} />
-              </Route>
+              <Route
+                path="/re"
+                element={<Requirements />}
+              />
+              <Route
+                path="/login"
+                element={<Login />}
+              />
+              <Route
+                path="/register"
+                element={<Register />}
+              />
+              <Route
+                path="/forgot-password"
+                element={<ForgotPassword />}
+              />
+              <Route
+                path="/tag-posts"
+                element={<TagPosts />}
+              />
             </Route>
+          </Route>
 
-
-            {/* Admin Routes */}
-            <Route element={<ProtectedRoute allowRoles={['admin']} />}>
-              <Route path="/admin" element={<AdminLayout />}>
-                {/* <Route path="/profile" element={<AdminProfile />} /> */}
-              </Route>
+          <Route element={<ProtectedRoute allowRoles={['user']} />}>
+            <Route path="/" element={<UserLayout />}>
+              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/user-posts" element={<UserPosts />} />
             </Route>
+          </Route>
 
-           {/* Not Found */}
-            <Route
-              path="*"
-              element={<NotFound />}
-            />
-          </Routes>
 
-        </div>
-        {/* <Footer />   */}
-        <Cookiee />
+          {/* Admin Routes */}
+          <Route element={<ProtectedRoute allowRoles={['admin']} />}>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="/admin/dashboard" element={<Dashboard />} />
+            </Route>
+          </Route>
+
+          {/* Not Found */}
+          <Route
+            path="*"
+            element={<NotFound />}
+          />
+        </Routes>
+
       </div>
+      {/* <Footer />   */}
+      <Cookiee />
     </BrowserRouter>
   );
 }
