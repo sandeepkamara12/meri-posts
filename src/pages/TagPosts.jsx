@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getPostsByTagName, resetTagPosts } from "../redux/slices/postSlice";
 import Post from "../components/post/Post";
 import PostLoader from "../components/post/PostLoader";
@@ -10,6 +10,7 @@ import useLoadOnScroll from "../hooks/useLoadOnScroll";
 
 const TagPosts = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const tag = searchParams.get("tag");
 
@@ -35,6 +36,9 @@ const TagPosts = () => {
     }
     if(tag) {
      getTagPosts();
+    }
+    else {
+      navigate('/not-found')
     }
   }, [tag]);
 

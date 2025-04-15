@@ -27,22 +27,29 @@ function App() {
       <div className="App">
         <Routes>
 
-          {/* Public Routes */}
+          {/* Public Routes: Anyone can access either loggedIn or not */}
+          <Route path="/" element={<UserLayout />}>
+            <Route
+              index
+              element={<Home />}
+            />
+            <Route
+              path="/post/:id"
+              element={<BlogDetails />}
+            />
+            <Route
+              path="/re"
+              element={<Requirements />}
+            />
+            <Route
+              path="/tag-posts"
+              element={<TagPosts />}
+            />
+          </Route>
+
+          {/* Restricted Public Routes: Could not be access after loggedIn */}
           <Route element={<PublicRoute />}>
             <Route path="/" element={<UserLayout />}>
-              <Route
-                index
-                element={<Home />}
-              />
-              <Route
-                path="/post/:id"
-                element={<BlogDetails />}
-              />
-
-              <Route
-                path="/re"
-                element={<Requirements />}
-              />
               <Route
                 path="/login"
                 element={<Login />}
@@ -55,20 +62,17 @@ function App() {
                 path="/forgot-password"
                 element={<ForgotPassword />}
               />
-              <Route
-                path="/tag-posts"
-                element={<TagPosts />}
-              />
             </Route>
           </Route>
 
+          {/* Protected Routes: Could be accessible after loggedIn only */}
+          {/* User Routes */}
           <Route element={<ProtectedRoute allowRoles={['user']} />}>
             <Route path="/" element={<UserLayout />}>
-              <Route path="/profile" element={<UserProfile />} />
-              <Route path="/user-posts" element={<UserPosts />} />
+              <Route path="profile" element={<UserProfile />} />
+              <Route path="user-posts" element={<UserPosts />} />
             </Route>
           </Route>
-
 
           {/* Admin Routes */}
           <Route element={<ProtectedRoute allowRoles={['admin']} />}>
