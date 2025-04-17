@@ -1,7 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const AdminSidebar = () => {
+  const location = useLocation();
+  const pathname = location.pathname;
+  // console.log(location.pathname, 'as');
   return (
     <>
       <div className="-mt-px">
@@ -18,7 +21,7 @@ const AdminSidebar = () => {
             >
               <span className="sr-only">Toggle Navigation</span>
               <svg
-                className="shrink-0 size-4"
+                className="shrink-0 size-4" 
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
@@ -132,8 +135,8 @@ const AdminSidebar = () => {
               <ul className="flex flex-col space-y-1">
                 <li>
                   <Link
-                    to="/admin/"
-                    className="flex items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:text-white"
+                    to="/admin"
+                    className={`${pathname === "/admin" ? 'bg-gray-100':''} flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:text-white`}
                   >
                     <svg
                       className="shrink-0 size-4"
@@ -157,7 +160,7 @@ const AdminSidebar = () => {
                 <li>
                   <Link
                     to="/admin/users"
-                    className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:text-white"
+                    className={`${pathname === "/admin/users" ? 'bg-gray-100':''} flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:text-white`}
                   >
                     <svg
                       className="shrink-0 size-4"
@@ -182,7 +185,7 @@ const AdminSidebar = () => {
                 <li>
                   <Link
                     to="/admin/posts"
-                    className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:text-white"
+                    className={`${pathname === "/admin/posts" ? 'bg-gray-100':''} flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +208,7 @@ const AdminSidebar = () => {
                 <li>
                   <Link
                     to="/admin/posts"
-                    className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:text-white"
+                    className={`${pathname === "/admin/posts" ? 'bg-gray-100':''} flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
